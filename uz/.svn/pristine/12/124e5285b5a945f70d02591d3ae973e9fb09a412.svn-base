@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.SysDepartmentMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.SysDepartment" >
+    <id column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentDeptId" jdbcType="INTEGER" />
+     <result column="create_time" property="userCreateTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    dept_id, dept_name,parent_id,create_time
+  </sql>
+  
+  <!-- 增加部门 -->
+  <insert id="addSysDepart" parameterType="evo.model.SysDepartment">
+  	insert into sys_department(dept_id,dept_name,parent_id,create_time)
+  	values (#{deptId,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR},#{parentDeptId,jdbcType=INTEGER},#{userCreateTime,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 删除部门 -->
+  <delete id="deleteSysDepart">
+  	delete from sys_department
+  	where dept_id = #{deptId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 修改部门信息 -->
+  <update id="updateSysDepart" parameterType="evo.model.SysDepartment">
+  	update sys_department
+  	<set >
+      <if test="parentDeptId != null" >
+        parent_id = #{parentDeptId,jdbcType=INTEGER},
+      </if>
+       <if test="deptName != null" >
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+  
+  
+  <!-- 查询部门列表 -->
+  <select id="findSysDepartmentList"  resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from sys_department
+  </select>
+  
+   <!-- 查询部门列表 -->
+  <select id="findAllSysDepartmentListByPage" parameterType="java.util.Map"  resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from sys_department 
+  	<where>
+  	<if test=" sysDepartment.deptName != null and !&quot;&quot;.equals(sysDepartment.deptName)"> and dept_name like concat('%',#{sysDepartment.deptName},'%')</if>
+  	</where>
+  	order by create_time desc
+  </select>
+  
+  <!-- 将SysDepartment对象，作为参数，查询和deptId相同的所有parentId -->
+  <select id="findDepartForDepartIdWithParentId" resultMap="BaseResultMap">
+	  select 
+	  <include refid="Base_Column_List" /> from sys_department 
+  	  where parent_id = #{deptId,jdbcType=INTEGER}
+  	  
+  </select>
+  
+  
+  
+  
+  
+  <!-- 以下是自动生成的SQL --> 
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_department
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_department
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="evo.model.SysDepartment" >
+    insert into sys_department (dept_id, dept_name)
+    values (#{deptId,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="evo.model.SysDepartment" >
+    insert into sys_department
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="deptId != null" >
+        dept_id,
+      </if>
+      <if test="deptName != null" >
+        dept_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="deptId != null" >
+        #{deptId,jdbcType=INTEGER},
+      </if>
+      <if test="deptName != null" >
+        #{deptName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="evo.model.SysDepartment" >
+    update sys_department
+    <set >
+      <if test="deptName != null" >
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="evo.model.SysDepartment" >
+    update sys_department
+    set dept_name = #{deptName,jdbcType=VARCHAR}
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+</mapper>

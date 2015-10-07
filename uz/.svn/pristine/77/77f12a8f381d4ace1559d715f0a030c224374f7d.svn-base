@@ -1,0 +1,119 @@
+package evo.controller;
+
+import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import evo.model.Appoint;
+import evo.model.VisitorRegister;
+import evo.service.IVisitorRegisterService;
+import evo.util.Page;
+
+@Controller
+@RequestMapping("/visitorRegisterController")
+public class VisitorRegisterController {
+	
+	@Autowired
+	private IVisitorRegisterService visitorRegisterService;
+	
+	/**
+	 * 
+	 * @Title: findVisitorRegisterList
+	 * @Description: 查询所有访问者记录
+	 * @author Demo demo_@evo_com
+	 * @param @return    设定文件
+	 * @return ModelAndView    返回类型
+	 * @throws
+	 */
+	@RequestMapping("/findVisitorRegisterList")
+	public ModelAndView findVisitorRegisterList(){
+		ModelAndView view = new ModelAndView();
+		
+		List<VisitorRegister> list = visitorRegisterService.findVisitorRegisterList();
+		view.addObject("visitorRegister", list);
+		view.setViewName("visit");
+		return view;
+		
+	}	
+	
+	/**
+	 * 
+	 * @Title: findVisitorRegisterByVisitorList
+	 * @Description: 根据访问者的手机号查询访问者记录List
+	 * @author Demo demo_@evo_com
+	 * @param @param phoneNum
+	 * @param @return    设定文件
+	 * @return ModelAndView    返回类型
+	 * @throws
+	 */
+	@RequestMapping("/findVisitorRegisterByVisitorList")
+	public ModelAndView findVisitorRegisterByVisitorList(String phoneNum){
+		ModelAndView view = new ModelAndView();
+		
+		List<VisitorRegister> list = visitorRegisterService.findVisitorRegisterByVisitorList(phoneNum);
+		view.addObject("visitorRegisterByPhoneNum", list);
+		view.setViewName("visit");
+		return view;
+		
+	}
+	
+	/**
+	 * 
+	 * @Title: insertVisitorRegister
+	 * @Description: 插入访问记录
+	 * @author Demo demo_@evo_com
+	 * @param @param visitorRegister    设定文件
+	 * @return void    返回类型
+	 * @throws
+	 */
+	@RequestMapping("/insertVisitorRegister")
+	public String insertVisitorRegister(VisitorRegister visitorRegister){
+		visitorRegisterService.insertVisitorRegister(visitorRegister);
+		return "redirect:findVisitorListByPage/0.do";
+	}
+	
+	/**
+	 * @throws Exception 
+	 * 
+	 * @Title: deleteVisitorRegisterByVisitorRegisterId
+	 * @Description: 根据VisitorRegisterId删除访问记录
+	 * @author Demo demo_@evo_com
+	 * @param @param visitorRegisterId    设定文件
+	 * @return void    返回类型
+	 * @throws
+	 */
+	@RequestMapping("/deleteVisitorRegisterByVisitorRegisterId/{visitorRegisterId}")
+	public void deleteVisitorRegisterByVisitorRegisterId(Integer visitorRegisterId,HttpServletResponse response) throws Exception{
+		visitorRegisterService.deleteVisitorRegisterByVisitorRegisterId(visitorRegisterId);
+		response.getWriter().print("{msg:'t'}");
+	}
+	/**
+	 * @param visitorRegister
+	 * @param currentPage
+	 * @return
+	 */
+	@RequestMapping("/findVisitorListByPage/{currentPage}")
+	public ModelAndView findVisitorListByPage(VisitorRegister visitorRegister,@PathVariable int currentPage){
+		ModelAndView view = new ModelAndView();
+		Page page = new Page();
+		page.setCurrentPage(currentPage);
+		List<VisitorRegister> list = visitorRegisterService.findVisitorRegisterListByPage(visitorRegister, page);
+		for(VisitorRegister vr : list){
+			String registerTime = vr.getRegisterTime();
+			String substring = registerTime.substring(0, registerTime.lastIndexOf("."));
+			vr.setRegisterTime(substring);
+		}
+		view.addObject("visitorListByPage", list);
+		view.addObject("page", page);
+		view.setViewName("visit");
+		return view;
+	}
+	
+}

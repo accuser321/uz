@@ -1,0 +1,375 @@
+package evo.service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.alibaba.fastjson.JSON;
+
+import evo.dao.SysDepartmentMapper;
+import evo.dao.SysRoleDAO;
+import evo.dao.SysUserDAO;
+import evo.dao.SysUserMapper;
+import evo.model.SysDepartment;
+import evo.model.SysUser;
+import evo.util.DateUtil;
+import evo.util.Page;
+
+@Service("sysUserService")
+public class SysUserServiceImpl implements ISysUserService {
+
+	@Autowired
+	private SysUserMapper sysUserMapper;
+	
+	@Autowired
+	private SysDepartmentMapper sysDepartmentMapper;
+	
+	@Autowired
+	private SysRoleDAO sysRoleDao;
+	
+	@Autowired
+	private SysUserDAO sysUserDao;
+	
+	
+	private static final Logger logger = Logger.getLogger(SysUserServiceImpl.class);
+	
+	/**
+	 * 登陆
+	 */
+//	public SysUser doLogin(String userName, String userPass) {
+//		SysUser sysuser = sysUserMapper.findSysUserByNameAndPass(userName, userPass);
+//		if(!sysuser.equals("") && sysuser != null){
+//			logger.info(JSON.toJSONStringWithDateFormat(sysuser,"yyyy-MM-DD HH:mm:ss"));
+//			return sysuser;
+//		}else{
+//			return null;
+//		}
+//		
+//	}
+
+    /**
+     * 登陆功能
+     * 根据用户名和密码查询用户信息
+     */
+	public SysUser findSysUserByNameAndPass(String userName, String userPass) {
+		SysUser sysuser = sysUserMapper.findSysUserByNameAndPass(userName, userPass);
+		if(sysuser != null){
+			//logger.info(JSON.toJSONStringWithDateFormat(sysuser,"yyyy-MM-DD HH:mm:ss"));
+			SysUser sysrole = this.findSysRoleByUserNameAndUserPass(userName, userPass);
+			logger.info(JSON.toJSONStringWithDateFormat(sysrole,"yyyy-MM-DD HH:mm:ss"));
+			return sysuser;
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 在登陆后
+	 * 根据userName和userPass查询角色信息 同时 查询部门信息
+	 * 查询出用户对应的角色,one对one关系
+	 */
+	public SysUser findSysRoleByUserNameAndUserPass(String userName, String userPass){
+		SysUser sysrole = sysUserMapper.findSysRoleByUserNameAndUserPass(userName,userPass);
+		if(sysrole != null){
+			logger.info(JSON.toJSONStringWithDateFormat(sysrole,"yyyy-MM-DD HH:mm:ss"));
+			return sysrole;
+		}else{
+			return null;
+		}
+	}
+
+	/**
+	 * 
+	 * @Title: findSysUserByDepartId
+	 * @Description: 根据部门id查询用户信息List
+	 * @author Demo demo_@evo_com
+	 * @param @param sysDepartment
+	 * @param @return    设定文件
+	 * @return List    返回类型
+	 * @throws
+	 */
+	public List findSysUserByDepartId(SysDepartment sysDepartment){
+		List<SysUser> list = sysUserMapper.findSysUserByDepartId(sysDepartment);
+		return list;
+	}
+	
+	
+	
+
+
+	/**
+	 * 用户注册
+	 */
+	public void insertSysUser(SysUser sysUser) {
+		
+		if(StringUtils.isBlank(sysUser.getUserCreateTime())){
+			sysUser.setUserCreateTime(DateUtil.getStandardDateTime());
+		}
+		if(sysUser.getUserAble() == null){
+			sysUser.setUserAble(1);
+		}
+		sysUserMapper.insertSysUser(sysUser);
+	}
+
+	/**
+	 * 删除用户(根据用户id)
+	 */
+	public void deleteSysUserByUserId(Integer userId) {
+		sysUserMapper.deleteSysUserByUserId(userId);
+		
+	}
+	
+	/**
+	 * 根据用户名修改密码
+	 */
+	public void updateSysUserByName(SysUser sysUser){
+		sysUserMapper.updateSysUserByName(sysUser);
+	}
+
+	/**
+	 * 
+	 * @Title: updateSysUser
+	 * @Description: 修改用户信息
+	 * @author Demo demo_@evo_com
+	 * @param @param sysUser    设定文件
+	 * @return void    返回类型
+	 * @throws
+	 */
+	public void updateSysUser(SysUser sysUser){
+		//SysUser selectByPrimaryKey = sysUserMapper.selectByPrimaryKey(sysUser.getUserId());
+		sysUserMapper.updateSysUser(sysUser);
+	}
+	
+	
+	/**
+	 * 
+	 * @Title: findSysUserList
+	 * @Description: 查询所有用户信息List
+	 * @author Demo demo_@evo_com
+	 * @param @return    设定文件
+	 * @return List<SysUser>    返回类型
+	 * @throws
+	 */
+	public List<SysUser> findSysUserList() {
+		List<SysUser> list = sysUserMapper.findSysUserList();
+		return list;
+	}
+	
+	/**
+	 * 
+	 * @Title: findSysUserListByPage
+	 * @Description: 查询所有用户信息List-分页
+	 * @author Demo demo_@evo_com
+	 * @param @return    设定文件
+	 * @return List<SysUser>    返回类型
+	 * important
+	 * @throws
+	 */
+	public List<SysUser> findSysUserListByPage(Page page,SysUser sysUser){
+		Map<String,Object> parameter = new HashMap<String,Object>();
+		
+		SysUser su = new SysUser();
+		if(StringUtils.isNotBlank(sysUser.getUserName())){
+			su.setUserName(sysUser.getUserName());
+		}
+		if(sysUser.getUserSex()!=null){
+			su.setUserSex(sysUser.getUserSex());
+		}
+		if(sysUser.getDeptId()!=null){
+			//su.setUserId(sysUser.getUserId());
+			//SysUser sysuser = this.findSysDepartmentBySysUserId(su);
+			SysDepartment department =	sysDepartmentMapper.selectByPrimaryKey(sysUser.getDeptId());
+			//parameter.put("deptname", department.getDeptName());
+			//parameter.put("getDeptId", sysUser.getDeptId());
+			su.setDeptId( sysUser.getDeptId());
+		}
+		if(StringUtils.isNotBlank(sysUser.getUserCreateTime())){
+			su.setUserCreateTime(sysUser.getUserCreateTime());
+		}
+		
+		parameter.put("page", page);
+		parameter.put("sysu", su);
+		List<SysUser> list = sysUserMapper.findSysUserListByPage(parameter);
+		for (SysUser user : list) {
+			SysDepartment department =	sysDepartmentMapper.selectByPrimaryKey(user.getDeptId());
+			user.setUserCreateTime(user.getUserCreateTime().substring(0, user.getUserCreateTime().lastIndexOf(".")));
+			user.setDepartName(department.getDeptName());
+		}
+		return list;
+	}
+	
+	/**
+	 * 
+	 * @Title: findSysDepartmentBySysUserId
+	 * @Description: 根据用户id查询部门信息
+	 * @author Demo demo_@evo_com
+	 * @param @param sysUser
+	 * @param @return    设定文件
+	 * @return SysDepartment    返回类型
+	 * @throws
+	 */
+	public SysUser findSysDepartmentBySysUserId(SysUser sysUser){
+		SysUser sysdept = sysUserMapper.findSysDepartmentBySysUserId(sysUser);
+		return sysdept;
+	}
+
+	/**
+	 * 
+	 * @Title: findUserById
+	 * @Description: 根据用户id查询用户信息
+	 * @author Demo demo_@evo_com
+	 * @param @param sysUser
+	 * @param @return    设定文件
+	 * @return  SysUser   返回类型
+	 * @throws
+	 */
+	@Override
+	public SysUser findUserById(Integer userId) {
+		SysUser user = sysUserMapper.findUserById(userId);
+		return user;
+	}
+
+	@Override
+	public SysUser findSinglUserById(SysUser sysUser) {
+		SysUser user = sysUserMapper.findSinglUserById(sysUser);
+		return user;
+	}
+
+	/**
+	 * 
+	 * @Title: findMultyUserByRole
+	 * @Description: 根据roleId批量查询SysUser的List
+	 * @author Demo demo_@evo_com
+	 * @param @param roleId
+	 * @param @return    设定文件
+	 * @return List<SysUser>    返回类型
+	 * @throws
+	 */
+	public List<SysUser> findMultyUserByRole(Integer roleId){
+		List<SysUser> list = sysUserMapper.findMultyUserByRole(roleId);
+		return list;
+	}
+	
+	
+	@Override
+	public SysUser findUserByPhoneNum(String phoneNum) {
+		return sysUserMapper.findUserByPhoneNum(phoneNum);
+	}
+	
+	/**
+	 * 
+	 * @Title: addBindRole
+	 * @Description: 权限绑定
+	 * 				   带着roleId插入到用户表中
+	 * @author Demo demo_@evo_com
+	 * @param @param sysRole
+	 * @param @param response
+	 * @param @return    设定文件
+	 * @return String    返回类型
+	 * @throws
+	 */
+	public void addBindRole(Integer[] sysUserId){
+		sysUserMapper.addBindRole(sysUserId);
+	}
+	
+	/**
+	 * 
+	 * @Title: addBindRole
+	 * @Description: 解除权限绑定
+	 * 				   带着roleId插入到用户表中
+	 * @author Demo demo_@evo_com
+	 * @param @param sysRole
+	 * @param @param response
+	 * @param @return    设定文件
+	 * @return String    返回类型
+	 * @throws
+	 */
+	public void deleteBindRole(Integer[] sysUserId){
+		sysUserMapper.deleteBindRole(sysUserId);
+	}
+	
+	
+	/**
+	 * 
+	 * @Title: addBindRole
+	 * @Description: 根据用户名称检查用户是否存在
+	 * 				 
+	 * @author Demo demo_@evo_com
+	 * @param @param sysRole
+	 * @param @param response
+	 * @param @return    设定文件
+	 * @return String    返回类型
+	 * @throws
+	 */
+	@Override
+	public boolean checkUserExist(String userName) {
+		SysUser sysUser = sysUserMapper.checkUserExist(userName);
+		return sysUser==null?false:true;
+	}
+
+	/**
+	 * 
+	 * @Title: addBindRole
+	 * @Description: 权限绑定
+	 * 				   带着roleId插入到用户表中
+	 * @author Demo demo_@evo_com
+	 * @param @param sysRole
+	 * @param @param response
+	 * @param @return    设定文件
+	 * @return String    返回类型
+	 * @throws
+	 */
+	@Override
+	public void addBindRole(String roleId,String [] sysUserId) {
+		sysRoleDao.buildMappinRelation(roleId, sysUserId );
+	}
+	
+	/**
+	 * 
+	 * @Title: addBindRole
+	 * @Description: 解除权限绑定
+	 * 				   带着roleId插入到用户表中
+	 * @author Demo demo_@evo_com
+	 * @param @param sysRole
+	 * @param @param response
+	 * @param @return    设定文件
+	 * @return String    返回类型
+	 * @throws
+	 */
+	public void deleteBindRole(String roleId,String[] sysUserId){
+		sysRoleDao.deleteMappinRelation(roleId,sysUserId);
+	}
+	
+	/**
+	 * 
+	 * @Title: updateBindRole
+	 * @Description: 权限绑定
+	 * 				   带着roleId插入到用户表中
+	 * @author Demo demo_@evo_com
+	 * @param @param sysRole
+	 * @param @param response
+	 * @param @return    设定文件
+	 * @return String    返回类型
+	 * @throws
+	 */
+	public void updateBindRole(String roleId,String[] sysUserId){
+		sysUserDao.buildMappinRelation(roleId, sysUserId);
+	}
+
+	public void removeBindRole(String roleId,String[] sysUserId){
+		sysUserDao.removeMappinRelation(roleId, sysUserId);
+	}
+
+	@Override
+	public List<SysUser> findUserByName(String userName) {
+		// TODO Auto-generated method stub
+		return sysUserMapper.findUserByName(userName);
+	}
+	
+	
+}

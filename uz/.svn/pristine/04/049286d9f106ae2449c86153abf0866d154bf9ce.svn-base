@@ -1,0 +1,113 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+Object roleID = request.getParameter("roleid");
+
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTDHTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <base href="<%=basePath%>">    
+    <title>权限绑定</title>    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/layout.css">
+	<link rel="stylesheet" href="css/ztree/zTreeStyle.css">
+	<script type="text/javascript" src="<%=basePath%>/script/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/ztree/jquery.ztree.core-3.5.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/ztree/jquery.ztree.excheck-3.5.min.js"></script>
+   <script type="text/javascript" src="<%=basePath%>/script/common.js"></script> 
+  </head>
+  
+  <body style="min-width:1123px;">
+   <div class="power-main">
+     <table width="100%">
+     	<tr>
+     	  <th width="79">角色名称：</th>
+     	  <td><input class="ipt-text" type="text"></td>
+     	</tr>
+     </table>
+     <div class="fieldsetBox">
+       <fieldset>
+     	  <legend>权限绑定</legend>
+     	  <input id="cbox01" type="checkbox"><label for="cbox01">员工信息管理</label>
+     	  <input id="cbox02" type="checkbox"><label for="cbox02">来访信息管理</label>
+       </fieldset>
+     </div>
+     <div class="btns">
+     	<a href="javascript:void(0);"><img src="images/btn_submit.jpg" alt=""></a>
+     	<a href="javascript:void(0);"><img src="images/btn_cancel.jpg" alt=""></a>
+     </div>
+   </div>
+   <div class="power-tree">
+     <div style="height:100%;padding:0; background:#e5f0ff;overflow:auto;">
+	      <ul id="staffTree" class="ztree">
+	      </ul>
+	 </div>
+   </div>   
+   
+   <div id="resuly" style="height: 100px;height: 50px">
+   
+   </div>	
+</body>
+<script type="text/javascript">
+   var setting = {
+		view: {
+			showLine: false
+		},
+		check: {
+			enable: true
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey:"id",
+				pIdKey:"pId",
+				rootPId:0
+			}
+		}
+	};
+
+   function setCheck() {
+		var zTree = $.fn.zTree.getZTreeObj("staffTree"),
+		py = $("#py").attr("checked")? "p":"",
+		sy = $("#sy").attr("checked")? "s":"",
+		pn = $("#pn").attr("checked")? "p":"",
+		sn = $("#sn").attr("checked")? "s":"",
+		type = { "Y":py + sy, "N":pn + sn};
+		zTree.setting.check.chkboxType = type;
+		showCode('setting.check.chkboxType = { "Y" : "' + type.Y + '", "N" : "' + type.N + '" };');
+	}
+    
+    var code;
+	function showCode(str) {
+		if (!code) code = $("#code");
+		code.empty();
+		code.append("<li>"+str+"</li>");
+	}
+	
+	$(document).ready(function(){
+		
+		var roleid = '<%=roleID%>';
+	   $.ajax({
+ 		url:"/sysRoleController/"+roleid+"/getRoleMenuTree.do",
+ 		type:"post",
+		success:function(msg){
+			var json_str = $.parseJSON(msg);
+			var arrayResult=json_str.jsonTree;
+			 $.fn.zTree.init($("#staffTree"), setting,arrayResult);
+			 setCheck();
+			 $("#py").bind("change", setCheck);
+			 $("#sy").bind("change", setCheck);
+			 $("#pn").bind("change", setCheck);
+			 $("#sn").bind("change", setCheck);  
+		 }
+	   })
+	});
+	
+</script>
+</html>
+

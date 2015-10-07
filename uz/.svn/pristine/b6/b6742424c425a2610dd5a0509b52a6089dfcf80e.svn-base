@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>jb-aptech毕业设计项目</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+<script src="../../script/common.js"></script>
+</head>
+<body>
+
+<div class="page_title">客户信息管理 > 客户信息</div>
+<div class="button_bar">
+	<button class="common_button" onClick="help('');">帮助</button>
+	<button class="common_button" onClick="to('linkman.html');">联系人</button>
+	<button class="common_button" onClick="to('activities.html');">交往记录</button>
+	<button class="common_button" onClick="to('orders.html');">历史订单</button>
+	
+	<button class="common_button" onClick="back();">返回</button>
+	<button class="common_button" onClick="save('dict.html');">保存</button>
+</div>
+<table class="query_form_table">
+	<tr>
+		<th>客户编号</th>
+		<td>KH101201008</td>
+		<th>名称</th>
+		<td><input value="北京世纪商务科技有限公司" /><span class="red_star">*</span></td>
+	</tr>
+	<tr>
+		<th>地区</th>
+		<td>
+			<select>
+				<option>请选择...</option>
+				<option selected>北京</option>
+				<option>华北</option>
+				<option>中南</option>
+				<option>东北</option>
+				<option>西部</option>
+			</select>
+			<span class="red_star">*</span></td>
+		<th>客户经理</th>
+		<td>
+			<select>
+				<option>请选择...</option>
+				<option selected>张大龙</option>
+				<option>张小一</option>
+				<option>李自成</option>
+				<option>李世民</option>
+				<option>孙坚</option>
+			</select><span class="red_star">*</span>
+		</td>
+	</tr>	
+	<tr>
+		<th>客户等级</th>
+		<td>
+			<select>
+				<option>请选择...</option>
+				<option selected>战略合作伙伴</option>
+				<option>合作伙伴</option>
+				<option>大客户</option>
+				<option>重点开发客户</option>
+				<option>普通客户</option>
+			</select><span class="red_star">*</span>
+		</td>
+		<th>　</th>
+		<td>　</td>
+	</tr>
+	<tr>
+		<th>客户满意度</th>
+		<td>
+			<select><option value="">未指定</option>
+					<option value="5">☆☆☆☆☆</option>
+					<option value="4">☆☆☆☆</option>
+					<option value="3" selected="selected">☆☆☆</option>
+					<option value="2">☆☆</option>
+					<option value="1">☆</option></select><span class="red_star">*</span>
+		</td>
+		<th>客户信用度</th>
+		<td>
+			<select><option value="">未指定</option>
+					<option value="5">☆☆☆☆☆</option>
+					<option value="4">☆☆☆☆</option>
+					<option value="3" selected="selected">☆☆☆</option>
+					<option value="2">☆☆</option>
+					<option value="1">☆</option></select><span class="red_star">*</span>
+		</td>
+	</tr>
+</table>
+<br />
+<table class="query_form_table" id="table1">
+	<tr>
+		<th>地址</th>
+		<td><input value="北京市西四环南路100号院"  /><span class="red_star">*</span>
+		</td>
+		<th>邮政编码</th>
+		<td><input value="100000" name="T1" size="20" /><span class="red_star">*</span></td>
+	</tr>
+	<tr>
+		<th>电话</th>
+		<td>
+			<input value="010-88880000" name="T4" size="20"  /><span class="red_star">*</span></td>
+		<th>传真</th>
+		<td>
+			<input value="010-88880000" name="T5" size="20"  /><span class="red_star">*</span>
+		</td>
+	</tr>	
+	<tr>
+		<th>网址</th>
+		<td>
+			<input value="www.sina.com.cn" name="T6" size="20"  /><span class="red_star">*</span>
+		</td>
+		<th>　</th>
+		<td>　</td>
+	</tr>
+</table>
+<br />
+<table class="query_form_table" id="table2">
+	<tr>
+		<th>营业执照注册号</th>
+		<td><input value="" name="T13" size="20" /></td>
+		<th>法人</th>
+		<td><input value="张飞" name="T3" size="20" /><span class="red_star">*</span>
+		</td>
+	</tr>
+	<tr>
+		<th>注册资金（万元）</th>
+		<td>
+			<input value="" name="T7" size="20" /> </td>
+		<th>年营业额</th>
+		<td>
+			<input value="" name="T8" size="20" />
+		</td>
+	</tr>	
+	<tr>
+		<th>开户银行</th>
+		<td>
+			<input value="北京银行 中关村支行" name="T9" size="20" /><span class="red_star">*</span>
+		</td>
+		<th>银行帐号</th>
+		<td><input value="62200000038382838" name="T10" size="20" /><span class="red_star">*</span></td>
+	</tr>
+	<tr>
+		<th>地税登记号</th>
+		<td>
+			<input value="" name="T11" size="20" /></td>
+		<th>国税登记号</th>
+		<td><input value="" name="T12" size="20" /></td>
+	</tr>
+</table>
+<p>　</p>
+</body>
+</html>

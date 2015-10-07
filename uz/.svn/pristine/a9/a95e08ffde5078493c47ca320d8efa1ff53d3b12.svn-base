@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>jb-aptech毕业设计项目</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+<script src="../../script/common.js"></script>
+</head>
+<body>
+
+<div class="page_title">客户信息管理 &gt; 客户信息 &gt; 交往记录</div>
+<div class="button_bar">
+	<button class="common_button" onclick="help('');">帮助</button>
+	<button class="common_button" onclick="to('activities_add.html');">新建</button>  
+	<button class="common_button" onclick="back();">返回</button>  
+</div>
+<table class="query_form_table">
+	<tr>
+		<th>客户编号</th>
+		<td>23</td>
+		<th>客户名称</th>
+		<td>世纪商务信息科技有限公司</td>
+	</tr>
+	</table>
+<br />
+<table class="data_list_table">
+	<tr>
+		<th width="232">时间</th>
+		<th>地点</th>
+		<th>概要</th>
+		<th>详细信息</th>
+		<th>备注</th>
+		<th>操作</th>
+	</tr>
+	<tr>
+		<td class="list_data_text" width="230">2010年10月09日</td>
+		<td class="list_data_text">商务渡假村</td>
+		<td class="list_data_ltext">签订意向协议</td>
+		<td class="list_data_ltext">...</td>
+		<td class="list_data_op">
+			　</td>
+		<td class="list_data_op">
+			<img onclick="to('activities_edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onclick="del('“交往记录：签订意向协议”');" title="删除" src="../../images/bt_del.gif" class="op_button" />
+			
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_text" width="230">2010年08月01日</td>
+		<td class="list_data_text">公司</td>
+		<td class="list_data_ltext">2011年技术交流会</td>
+		<td class="list_data_ltext">...</td>
+		<td class="list_data_op">
+			主办单位:北京IT协会</td>
+		<td class="list_data_op">
+			<img onclick="to('activities_edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onclick="del('“交往记录：签订意向协议”');" title="删除" src="../../images/bt_del.gif" class="op_button" />
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_text" width="230">2010年07月25日</td>
+		<td class="list_data_text">公司</td>
+		<td class="list_data_ltext">邀请到公司参观</td>
+		<td class="list_data_ltext">...</td>
+		<td class="list_data_op">
+			　</td>
+		<td class="list_data_op">
+			<img onclick="to('activities_edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onclick="del('“交往记录：签订意向协议”');" title="删除" src="../../images/bt_del.gif" class="op_button" />&nbsp;
+		</td>
+	</tr>
+	</table>
+</body>
+</html>

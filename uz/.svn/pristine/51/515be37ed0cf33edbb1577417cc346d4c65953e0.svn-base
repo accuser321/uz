@@ -1,0 +1,348 @@
+/**
+ * 共用全局脚本
+ * @date 2015-06-26 16:25:45
+ * @version $Id$
+ */
+
+$(document).ready(function(){
+	//输入框宽度根据内嵌width自适应，及边框颜色变化
+	$(".ipt-text").each(function() {
+		var sWidth = $(this).attr("width");
+		$(this).css("width",sWidth);
+		$(this).on("focus",function() {
+			$(this).css("border-color","#595959");
+		});
+		$(this).on("blur",function() {
+			$(this).css("border-color","#d6d6d6");
+		});		
+	});
+    
+    //筛选框全选,复选
+    $("#Allchk").click(function(){
+    	if (this.checked) {
+    		$(".tableFrom :checkbox").prop("checked",true);
+    	}
+    	else{
+    		$(".tableFrom :checkbox").prop("checked",false);
+    	}
+    });
+    // $(".table tbody tr:odd").addClass("odd");
+    $(".table tbody").each(function(){
+    	$(this).children("tr:odd").addClass("odd");
+    });
+    // 访问记录管理 获取当前查询起始时间
+    Date.prototype.Format = function (fmt) { //author: meizz 
+	var o = {
+	      "M+": this.getMonth() + 1, //月份 
+	      "d+": this.getDate(), //日 
+	      "h+": this.getHours(), //小时 
+	      "m+": this.getMinutes(), //分 
+	      "s+": this.getSeconds(), //秒 
+	      "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+	      "S": this.getMilliseconds() //毫秒 
+	};
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+	if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	    return fmt;
+	} 
+	var time1 = new Date().Format("yyyy-MM-dd");
+	$("#vStartDate").val(time1);
+
+	//访问记录管理 获取当前结束时间
+	Date.prototype.Format = function (fmt) { //author: meizz 
+	var o = {
+	      "M+": this.getMonth() + 2, //月份 
+	      "d+": this.getDate(), //日 
+	      "h+": this.getHours(), //小时 
+	      "m+": this.getMinutes(), //分 
+	      "s+": this.getSeconds(), //秒 
+	      "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+	      "S": this.getMilliseconds() //毫秒 
+	};
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	for (var k in o)
+	if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+	    return fmt;
+	} 
+	var time2 = new Date().Format("yyyy-MM-dd");
+	$("#vEndDate").val(time2);
+   
+});
+
+
+function searchSub(){
+	 $("#searchForm").submit();
+}
+
+//登录login
+function userLogin(){
+	var uname= $.trim($("#name").val());
+	var upwd= $.trim($("#password").val());
+	if(uname.length==0){
+		$(".loginerror").css({"display":"block"});
+		$(".loginerror span").html("用戶名不能是空！");
+	}else if(upwd.length==0){
+		$(".loginerror").css({"display":"block"});
+		$(".loginerror span").html("请输入密码！");
+	}
+	else if(uname.length==0 && upwd.length==0){
+		$(".loginerror").css({"display":"block"});
+		$(".loginerror span").html("用户名及密码不能为空！");
+	}else{
+		$.ajax({
+  	 		url:"/sysUserController/doLogin.do",
+  	 		type:"post",
+  	 		cache:false, 
+  	 		data:{userName:uname,userPass:upwd},
+			success:function(msg){
+			var json_str = eval("("+msg+")"); 
+				if(json_str.msg=='f'){
+					$(".loginerror").css({"display":"block"});
+					$(".loginerror span").html("用户名或密码错误！");
+				}else{
+					window.location.href="/sysUserController/loginSuc.do";
+				}
+			}
+  	 	})
+	}
+  	
+}
+
+//员工新增ajax模态框
+function popAdd(){
+	art.dialog({
+		title:"新增",  //这是标题
+		padding:'10px 15px',  //这是内补丁，默认为10px
+		content: document.getElementById('Popdiv'), //这个ID就是页面里面那个藏着的div的ID
+		lock:true,   //这表示是否出现背景遮罩层
+		// window:'top',
+		opacity:0.5,  //这表示遮罩层的背景透明度，默认这个数值
+		id:'staffAdd', //加了id可以防止多次弹出同一个窗口
+		ok:function (){
+		    var name= $.trim($("#userName").val());
+		    var phone= $.trim($("#userPhone").val());
+		    var userSex= $("#userSex").val();
+		    var brithday= $.trim($("#userBirthday").val());
+		    var department= $.trim($("#deptId").val());
+		    var address= $.trim($("#userAddress").val());
+		    var pwd= $.trim($("#userPass").val());
+		    
+		    if(name.length==0){
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('请输入员工姓名！');
+		      return false;	      
+		    }
+		    var p1 = /^0?(13[0-9]|15[012356789]|17[0123456789]|18[0-9]|14[57])[0-9]{8}$/;
+			if(phone.length==0){	      
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('员工手机号码不能是空！');
+		      return false;
+			}else if(!(p1.test(phone))){
+			  $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('您输入的手机号码格式不正确！');
+		      return false;
+			}
+		    if(userSex.length==0){
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('请输选择员工性别！');
+		      return false;
+		    }
+		    if(department.length==0){
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('请输入员工所在部门！');
+		      return false;
+		    }
+		    if(address.length==0){
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('请输入员工相关地址信息！');
+		      return false;
+		    }
+		    if(brithday.length==0){
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('请输入员工生日！');
+		      return false;
+		    }
+		    if(pwd.length==0){
+		      $("#Popdiv .error").css({"display":"block"});
+		      $('#Popdiv .error span').html('请输入员工个人密码！');
+		      return false;
+		    }
+		    $("#staffAddform").submit();
+		    /* $.ajax({
+		        url:"/sysUserController/addEmployUser.do",
+		        type:"post",
+		        cache:false,
+		        async:false,  
+		        data:{userName:name,userPhone:
+		        success:function(msg){
+		        var json_str = eval("("+msg+")"); 
+					if(json_str.msg=='t'){
+		          		window.location.href="/sysUserController/findSysUserListByPage/0.do";
+		          }
+		        },
+		        error:function(XMLHttpRequest, textStatus, errorThrown){
+		          $(".error").css({"display":"block"});
+		          $('.error span').html('添加异常，请稍后重试！');
+		          alert(XMLHttpRequest.status);
+	             alert(XMLHttpRequest.readyState);
+	             alert(textStatus);
+		          return false;
+		        }
+		        
+		    }); */
+		    
+			},
+		cancelVal:'取消',
+		cancel:true
+			
+		});
+};
+function delete_staff(staff_id){    
+   confirm_ = confirm('请确认是否删除？');
+   if(confirm_){
+   	$.get("/sysUserController/deleteSysUserByUserId/"+staff_id+".do",null,function(){
+   	window.location.href="/sysUserController/findSysUserListByPage/0.do";
+  	 })	;
+   }
+};
+function addChkUserExist(){
+	var name= $.trim($("#userName").val());
+	if(name.length==0){
+	      $(".error").css({"display":"block"});
+	      $('.error span').html('请输入员工姓名！');
+	}else if(name.length!=0){
+		$.ajax({
+			url:"/sysUserController/"+name+"/checkUserExist.do",
+			type:"post",
+			cache:false,
+			success:function(msg){
+				var jsonStr = eval("("+msg+")");
+				if(jsonStr.msg == false){
+					 $(".error").css({"display":"block"});
+				     $('.error span').html('员工姓名已被占用，请重新输入！');
+				     return false;
+				}//else {
+					 //$(".error").css({"display":"block"});
+				     //$('.error span').html('可注册！');
+				//}
+			}
+		})
+	}
+	
+}
+
+function editChkUserExist(){
+	var mname= $.trim($("#modify_userName").val());
+	if(name.length==0){
+	      $(".error").css({"display":"block"});
+	      $('.error span').html('请输入员工姓名！');
+	}else if(name.length!=0){
+		$.ajax({
+			url:"/sysUserController/"+mname+"/checkUserExist.do",
+			type:"post",
+			cache:false,
+			success:function(msg){
+				var jsonStr = eval("("+msg+")");
+				if(jsonStr.msg == false){
+					 $(".error").css({"display":"block"});
+				     $('.error span').html('员工姓名已被占用，请重新输入！');
+				     return false;
+				}
+			}
+		})
+	}
+}
+
+function modify(userId){
+	$("#userid").val(userId);
+	$.post("/sysUserController/findSinglUser.do",{userId:userId},function(msg){
+		var json_str = eval("("+msg+")"); 
+		var singleUer = json_str.singleUer;
+			$("#modify_userName").val(singleUer.userName);
+			$("#modify_userPhone").val(singleUer.userPhone);
+			$("#modify_userSex").val(singleUer.userSex);
+			$("#modify_userBirthday").val(singleUer.userBirthday);
+			$("#modify_deptId").append("<option value=''>--请选择--</option>");
+			var departList = json_str.departList;
+			for(var i =0;i<departList.length;i++ ){
+				var depart = departList[i];
+				var htl;
+				if(depart.deptId==singleUer.deptId){
+					 htl = "<option value='"+depart.deptId+"' selected='selected'>"+depart.deptName+"</option>";
+				}else{
+					 htl = "<option value='"+depart.deptId+"'>"+depart.deptName+"</option>";
+				}
+				$("#modify_deptId").append(htl);
+			}
+			$("#modify_userAddress").val(singleUer.userAddress);
+			$("#modify_userPass").val(singleUer.userPass);
+			//window.location.href="/sysUserController/findSysUserListByPage/0.do";
+			art.dialog({
+				title:"修改",
+				padding:'10px 15px',
+				content: document.getElementById('PopModify'),
+				lock:true,
+				opacity:0.5,
+				id:'staffEdit',
+				ok:function (){
+				    var name= $.trim($("#modify_userName").val());
+				    var phone= $.trim($("#modify_userPhone").val());
+				    var userSex= $("#modify_userSex").val();
+				    var brithday= $.trim($("#modify_userBirthday").val());
+				    var department= $.trim($("#modify_deptId").val());
+				    var address= $.trim($("#modify_userAddress").val());
+				    var pwd= $.trim($("#modify_userPass").val());
+				    
+				    if(name.length==0){
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('请输入员工姓名！');
+				      return false;	      
+				    }
+				    var p2 = /^0?(13[0-9]|15[012356789]|17[0123456789]|18[0-9]|14[57])[0-9]{8}$/;
+					if(phone.length==0){	      
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('员工手机号码不能是空！');
+				      return false;
+					}else if(!(p2.test(phone))){
+					  $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('您输入的手机号码格式不正确！');
+				      return false;
+					}
+				    if(userSex.length==0){
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('请输选择员工性别！');
+				      return false;
+				    }
+				    if(department.length==0){
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('请输入员工所在部门！');
+				      return false;
+				    }
+				    if(address.length==0){
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('请输入员工相关地址信息！');
+				      return false;
+				    }
+				    if(brithday.length==0){
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('请输入员工生日！');
+				      return false;
+				    }
+				     if(pwd.length==0){
+				      $("#PopModify .error").css({"display":"block"});
+				      $('#PopModify .error span').html('请输入员工个人密码！');
+				      return false;
+				    }
+				    $("#modifyform").submit();
+				    
+				},
+			cancelVal:'取消',
+			cancel:true
+			
+			  });
+			
+	});
+};
+
+

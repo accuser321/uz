@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.SysRoleMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.SysRole" >
+    <id column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  
+  <resultMap type="evo.model.SysRole" id="findSysRoleListMap">
+	  <id column="role_id" property="roleId" jdbcType="INTEGER" />
+	  <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+	  <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+	  <!-- 在主表中包含多方字表的conllection集合  后者是多方Mapper中namespace.resultMap的id-->
+	  <!-- <collection property="sysUserList" resultMap="evo.dao.SysUserMapper.BaseResultMap"></collection> -->
+	  <collection property="sysUsers" javaType="java.util.List" ofType="evo.model.SysUser">
+		    <id column="user_id" property="userId" jdbcType="INTEGER" />
+		    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+		    <result column="user_pass" property="userPass" jdbcType="VARCHAR" />
+		    <result column="user_create_time" property="userCreateTime" jdbcType="TIMESTAMP" />
+		    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+		    <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+		    <result column="user_able" property="userAble" jdbcType="INTEGER" />
+	  </collection>
+  </resultMap>
+    
+  <sql id="Base_Column_List" >
+    role_id, role_name, role_desc
+  </sql>
+  
+  <!-- 查询N方的用户信息 -->
+  <select id="findSysRoleList"  resultMap="findSysRoleListMap">	<!-- parameterType="evo.model.SysRole" -->
+  		select 
+  		a.role_id,
+  		a.role_name,
+  		a.role_desc,
+  		b.user_id,
+  		b.user_name,
+  		b.user_pass,
+  		b.user_phone,
+  		b.user_sex,
+  		b.user_able
+  		from sys_role as a left join sys_user as b
+  		on a.role_id = b.role_id
+  	
+  </select>
+  
+  <!-- 多对多关系,根据角色id查询权限信息List -->
+    <resultMap type="evo.model.SysRole" id="findSysRoleMore">
+	  <id column="role_id" property="roleId" jdbcType="INTEGER" />
+	  <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+	  <result column="role_desc" property="roleDesc" jdbcType="VARCHAR" />
+	  <collection property="sysRoleList" javaType="java.util.List" ofType="evo.model.SysRight" select="evo.dao.SysRightMapper.getBySysRoleId" column="role_id">
+	  </collection>
+  </resultMap>
+  
+  
+  <!-- 创建角色 -->
+  <insert id="addSysRole" parameterType="evo.model.SysRole">
+  	insert into sys_role(role_id,role_name,role_desc)
+  	values (#{roleId,jdbcType=INTEGER},
+  			#{roleName,jdbcType=VARCHAR},
+  			#{roleDesc,jdbcType=VARCHAR})
+  </insert>
+  
+  <!-- 删除角色 -->
+  <delete id="deleteSysRole" parameterType="java.lang.Integer">
+  	delete from sys_role
+  	where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 修改角色信息 -->
+  <update id="updateSysRole" parameterType="evo.model.SysRole">
+  	update sys_role
+  	<set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        role_desc = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+    
+  </update>
+  
+  <!-- 查询所有角色信息List-分页 -->
+  <select id="findSysRoleListByPage" resultMap="BaseResultMap"  parameterType="java.util.Map">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from sys_role
+  	<where>
+  	role_id !=1 
+  	<if test="sysr.roleName != null and !&quot;&quot;.equals(sysr.roleName.trim())"> and role_name like concat('%',#{sysr.roleName},'%')</if>
+  	</where>
+  	order by role_name desc 
+  </select>
+  
+  
+  <!-- 以下是自动生成的SQL -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_role
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="evo.model.SysRole" >
+    insert into sys_role (role_id, role_name, role_desc
+      )
+    values (#{roleId,jdbcType=INTEGER}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="evo.model.SysRole" >
+    insert into sys_role
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="roleName != null" >
+        role_name,
+      </if>
+      <if test="roleDesc != null" >
+        role_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roleId != null" >
+        #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        #{roleDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="evo.model.SysRole" >
+    update sys_role
+    <set >
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
+      </if>
+      <if test="roleDesc != null" >
+        role_desc = #{roleDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="evo.model.SysRole" >
+    update sys_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      role_desc = #{roleDesc,jdbcType=VARCHAR}
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </update>
+</mapper>

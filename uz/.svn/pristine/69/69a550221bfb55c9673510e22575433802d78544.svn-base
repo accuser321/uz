@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.SysRightMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.SysRight" >
+    <id column="right_id" property="rightId" jdbcType="INTEGER" />
+    <result column="right_parent_id" property="rightParentId" jdbcType="VARCHAR" />
+    <result column="right_type" property="rightType" jdbcType="VARCHAR" />
+    <result column="right_text" property="rightText" jdbcType="VARCHAR" />
+    <result column="right_url" property="rightUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    right_id, right_parent_id, right_type, right_text, right_url
+  </sql>
+  
+  <!-- 多对多关系,根据角色id查询权限信息List -->
+  <select id="findSysRightByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select 
+  	c.right_id,
+  	c.right_parent_id,
+  	c.right_type,
+  	c.right_text,
+  	c.right_url 
+  	from sys_right c,sys_role_right sc 
+  	where sc.role_id = #{rightId} and sc.right_id = c.right_id
+  </select>
+  
+  <!-- 根据sys_right表中得rightId,查询rightParentId=rightId的List数据 -->
+  <!-- select * from sys_right c,sys_right b
+		where c.right_parent_id=b.right_id and b.right_id=3 -->
+		
+  <select id="findSysRightListByRightId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select
+  	c.right_id, c.right_parent_id, c.right_type, c.right_text, c.right_url
+  	from sys_right c,sys_right b where c.right_parent_id=b.right_id and b.right_id = #{rightId,jdbcType=INTEGER}
+  	
+  </select>
+  
+  
+  
+  <!-- 以下是自动生成的SQL -->  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_right
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_right
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="evo.model.SysRight" >
+    insert into sys_right (right_id, right_parent_id, right_type, 
+      right_text, right_url)
+    values (#{rightId,jdbcType=INTEGER}, #{rightParentId,jdbcType=VARCHAR}, #{rightType,jdbcType=VARCHAR}, 
+      #{rightText,jdbcType=VARCHAR}, #{rightUrl,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="evo.model.SysRight" >
+    insert into sys_right
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rightId != null" >
+        right_id,
+      </if>
+      <if test="rightParentId != null" >
+        right_parent_id,
+      </if>
+      <if test="rightType != null" >
+        right_type,
+      </if>
+      <if test="rightText != null" >
+        right_text,
+      </if>
+      <if test="rightUrl != null" >
+        right_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rightId != null" >
+        #{rightId,jdbcType=INTEGER},
+      </if>
+      <if test="rightParentId != null" >
+        #{rightParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="rightType != null" >
+        #{rightType,jdbcType=VARCHAR},
+      </if>
+      <if test="rightText != null" >
+        #{rightText,jdbcType=VARCHAR},
+      </if>
+      <if test="rightUrl != null" >
+        #{rightUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="evo.model.SysRight" >
+    update sys_right
+    <set >
+      <if test="rightParentId != null" >
+        right_parent_id = #{rightParentId,jdbcType=VARCHAR},
+      </if>
+      <if test="rightType != null" >
+        right_type = #{rightType,jdbcType=VARCHAR},
+      </if>
+      <if test="rightText != null" >
+        right_text = #{rightText,jdbcType=VARCHAR},
+      </if>
+      <if test="rightUrl != null" >
+        right_url = #{rightUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="evo.model.SysRight" >
+    update sys_right
+    set right_parent_id = #{rightParentId,jdbcType=VARCHAR},
+      right_type = #{rightType,jdbcType=VARCHAR},
+      right_text = #{rightText,jdbcType=VARCHAR},
+      right_url = #{rightUrl,jdbcType=VARCHAR}
+    where right_id = #{rightId,jdbcType=INTEGER}
+  </update>
+</mapper>

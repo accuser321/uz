@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.VisitorFingerMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.VisitorFinger" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    <result column="finger1_url" property="finger1Url" jdbcType="VARCHAR" />
+    <result column="finger2_url" property="finger2Url" jdbcType="VARCHAR" />
+    <result column="finger3_url" property="finger3Url" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="evo.model.VisitorFingerWithBLOBs" extends="BaseResultMap" >
+    <result column="finger1_photo" property="finger1Photo" jdbcType="LONGVARBINARY" />
+    <result column="finger2_photo" property="finger2Photo" jdbcType="LONGVARBINARY" />
+    <result column="finger3_photo" property="finger3Photo" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, visitor_id, finger1_url, finger2_url, finger3_url
+  </sql>
+  <sql id="Blob_Column_List" >
+    finger1_photo, finger2_photo, finger3_photo
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from visitor_finger
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from visitor_finger
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="evo.model.VisitorFingerWithBLOBs" >
+    insert into visitor_finger (id, visitor_id, finger1_url, 
+      finger2_url, finger3_url, finger1_photo, 
+      finger2_photo, finger3_photo)
+    values (#{id,jdbcType=INTEGER}, #{visitorId,jdbcType=INTEGER}, #{finger1Url,jdbcType=VARCHAR}, 
+      #{finger2Url,jdbcType=VARCHAR}, #{finger3Url,jdbcType=VARCHAR}, #{finger1Photo,jdbcType=LONGVARBINARY}, 
+      #{finger2Photo,jdbcType=LONGVARBINARY}, #{finger3Photo,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="evo.model.VisitorFingerWithBLOBs" >
+    insert into visitor_finger
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="visitorId != null" >
+        visitor_id,
+      </if>
+      <if test="finger1Url != null" >
+        finger1_url,
+      </if>
+      <if test="finger2Url != null" >
+        finger2_url,
+      </if>
+      <if test="finger3Url != null" >
+        finger3_url,
+      </if>
+      <if test="finger1Photo != null" >
+        finger1_photo,
+      </if>
+      <if test="finger2Photo != null" >
+        finger2_photo,
+      </if>
+      <if test="finger3Photo != null" >
+        finger3_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="visitorId != null" >
+        #{visitorId,jdbcType=INTEGER},
+      </if>
+      <if test="finger1Url != null" >
+        #{finger1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="finger2Url != null" >
+        #{finger2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="finger3Url != null" >
+        #{finger3Url,jdbcType=VARCHAR},
+      </if>
+      <if test="finger1Photo != null" >
+        #{finger1Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger2Photo != null" >
+        #{finger2Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger3Photo != null" >
+        #{finger3Photo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="evo.model.VisitorFingerWithBLOBs" >
+    update visitor_finger
+    <set >
+      <if test="visitorId != null" >
+        visitor_id = #{visitorId,jdbcType=INTEGER},
+      </if>
+      <if test="finger1Url != null" >
+        finger1_url = #{finger1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="finger2Url != null" >
+        finger2_url = #{finger2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="finger3Url != null" >
+        finger3_url = #{finger3Url,jdbcType=VARCHAR},
+      </if>
+      <if test="finger1Photo != null" >
+        finger1_photo = #{finger1Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger2Photo != null" >
+        finger2_photo = #{finger2Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger3Photo != null" >
+        finger3_photo = #{finger3Photo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="evo.model.VisitorFingerWithBLOBs" >
+    update visitor_finger
+    set visitor_id = #{visitorId,jdbcType=INTEGER},
+      finger1_url = #{finger1Url,jdbcType=VARCHAR},
+      finger2_url = #{finger2Url,jdbcType=VARCHAR},
+      finger3_url = #{finger3Url,jdbcType=VARCHAR},
+      finger1_photo = #{finger1Photo,jdbcType=LONGVARBINARY},
+      finger2_photo = #{finger2Photo,jdbcType=LONGVARBINARY},
+      finger3_photo = #{finger3Photo,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="evo.model.VisitorFinger" >
+    update visitor_finger
+    set visitor_id = #{visitorId,jdbcType=INTEGER},
+      finger1_url = #{finger1Url,jdbcType=VARCHAR},
+      finger2_url = #{finger2Url,jdbcType=VARCHAR},
+      finger3_url = #{finger3Url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

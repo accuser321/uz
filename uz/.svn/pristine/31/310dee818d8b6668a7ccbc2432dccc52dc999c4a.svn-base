@@ -1,0 +1,27 @@
+package evo.dao;
+
+import org.springframework.stereotype.Component;
+
+import evo.model.SysRoleRight;
+@Component
+public class RoleRightDAO  extends BaseDao<SysRoleRight>{
+	public void buildMappinRelation(String roleId,Integer[] ids){
+		StringBuffer buffer = new StringBuffer();
+		 for(Integer id:ids){
+			 buffer.append(id.intValue()).append(",");
+		 }
+		 String sql = "update sys_role_right  set role_id = '"+roleId+"' where right_id in ("+buffer.subSequence(0, buffer.lastIndexOf(","))+" )"; 
+		 this.getJdbcTemplate().execute(sql);
+	}
+	
+	public void deleteMappinRelation(String roleId,Integer[] ids){
+		StringBuffer buffer = new StringBuffer();
+		 for(Integer id:ids){
+			 buffer.append(id.intValue()).append(",");
+		 }
+		 String sql = "delete from sys_role_right  where right_id in ("+buffer.subSequence(0, buffer.lastIndexOf(","))+" ) and role_id ='"+roleId+"'"; 
+		 this.getJdbcTemplate().execute(sql);
+	}
+	
+	
+}

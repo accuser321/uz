@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>智优出入管理系统-后台管理</title>
+<link rel="stylesheet" type="text/css" href="../css/layout.css">
+</head>
+  <frameset rows="110,*" cols="*" frameborder="0" framespacing="0" border="0">
+  	<frame id="topFrame" src="top.html" name="topFrame" scrolling="No" noresize="noresize" title="topFrame">
+  		<frameset cols="300,*" frameborder="0" framespacing="0" border="0">
+  			<frame id="leftMenu" src="menu.html" name="leftMenu" scrolling="no" noresize="noresize" title="leftMenu"></frame>
+  			<frame id="index" src="index.html" name="rightFrame" scrolling="yes" noresize="noresize" title="leftFrame"></frame>
+  		</frameset>
+  	</frame>
+  </frameset>
+  <noframes>
+<body>
+</body>
+  </noframes>
+</html>

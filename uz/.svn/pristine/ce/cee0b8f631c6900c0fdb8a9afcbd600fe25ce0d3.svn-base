@@ -1,0 +1,890 @@
+@charset "UTF-8";
+/**
+ * 全局基本布局，框架样式
+ * @date    2015-06-25 11:00:51
+ * @version $Id$
+ */
+
+html, body
+{
+	height: 100%;
+}
+body, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td
+{
+	margin: 0px;
+	padding: 0px;
+}
+body
+{
+	font: 14px/20px Microsoft YaHei, SimSun, Arial, Helvetica, sans-serif;
+	text-align: center;
+	color: #333;
+	background:#fff;
+}
+input, select, button, textarea{
+	vertical-align: middle;
+}
+ul li{
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	outline: none;
+	color: #000;
+}
+img{
+	border: 0;
+	vertical-align: middle;
+}
+table{
+	border-collapse: collapse;
+	border-spacing: 0;
+	text-align: left;
+}
+
+/*宽度和浮动类*/
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.fn{
+	float: none;
+}
+.tac{
+	text-align: center;
+}
+.tal{
+	text-align: left;
+}
+.tar{
+	text-align: right;
+}
+.bd0{
+	border: 0;
+}
+/*下拉样式（日历） start*/
+.drop-down{
+	display: inline-block;
+	position: relative;
+}
+.drop-down .down-ico {
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	position: absolute;
+	top: 26%;
+	right: 8px;
+	background: url(../images/ico-calender.png) no-repeat;
+	cursor: pointer;
+}
+/*下拉样式（日历） end*/
+/*输入框样式 start*/
+.ipt-text{
+	width: 190px;
+	height: 22px;
+	border: 1px solid #d6d6d6;
+	padding: 4px 5px;
+	font: 14px/22px Microsoft YaHei;
+	color: #666;
+	outline: none;
+}
+/*输入框样式 end*/
+.fliter-box{
+	padding: 20px;
+	width: 984px;
+}
+.fliter-box table th{
+	width: 52px;
+	height: 54px;
+	/*text-align: center;*/
+}
+.roleInfo table th{
+	width: 76px;
+}
+.selects select{
+	width: 197px;
+	height: 32px;
+	border: 1px solid #d6d6d6;
+}
+/*.roleInfo table td{
+	width: 230px;
+}*/
+.clearfix{
+	display: block;
+	clear: both;
+	height: 0;
+    line-height: 0;
+    font-size: 0;
+    content: "";
+    overflow: hidden;
+}
+.fliter-btn{
+	width: 98%;
+	display: inline-block;
+	padding: 19px 0 19px 19px;
+	border-top: 1px solid #d9d9d9;
+}
+.fliter-btn a{
+	float: left;
+	padding-right: 30px;
+}
+/* 下拉框样式 开始 */
+.single-select ol, ul
+{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.single-select
+{
+	position: relative;
+	display: inline-block;
+	font-family: Microsoft YaHei;
+	color: #666;
+	font-size: 14px;
+	text-align: left;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.single-select .boxwrap
+{
+	display: inline-block;
+	width: 200px;
+	border: solid 1px #d6d6d6;
+	vertical-align: middle;
+}
+.single-select .boxwrap.blur, .single-select .boxwrap.blur ul
+{
+	border: solid 1px #595959;
+}
+.single-select .select-tit
+{
+	position: relative;
+	display: block;
+	padding: 0 36px 0 5px;
+	line-height: 30px;
+	height: 30px;
+	text-decoration: none;
+	background: #fff;
+	word-break: break-all;
+	color: #666;
+	overflow: hidden;
+}
+.single-select .select-tit span
+{
+	display: inline-block;
+	height: 30px;
+}
+.single-select .select-tit i
+{
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background: url(../images/ico-sprite.png) 0 -90px no-repeat;
+}
+.single-select .select-items
+{
+	display: none;
+	position: absolute;
+	left: 0;
+	top: 31px;
+}
+.select-up .select-items
+{
+	top:auto;
+	bottom:31px;
+}
+.single-select .select-items ul
+{
+	position: relative;
+	width: 200px;
+	max-height: 130px;
+	border: 1px solid #d6d6d6;
+	background: #fff;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+.single-select .select-items ul li
+{
+	display: block;
+	padding-left: 5px;
+	line-height: 26px;
+	height: 26px;
+	overflow: hidden;
+	cursor: pointer;
+}
+.single-select .select-items ul li.selected
+{
+	background: #d4edfe;
+}
+.single-select .select-items ul li:hover
+{
+	color: #fff;
+	background: #65abda;
+}
+/* 下拉框样式 结束 */
+/*模态框文本框 start*/
+.modal-table table{
+	margin: 0 auto;
+}
+.modal-table tbody th{
+	width: 52px;
+}
+.modal-table tbody td{
+	width: 260px;
+}
+/*模态框文本框 end*/
+
+/*员工新增弹框表单 start*/
+.staff-box{
+	/*width: 900px;*/
+	margin: 0 auto;
+}
+.staff-box .staff-tab{
+	width: 600px;
+	margin: 0 auto;
+}
+.staff-tab tbody th{
+	height: 52px;
+	line-height: 52px;
+	text-align: right;
+}
+.staff-tab span{
+	color: red;
+	padding: 0 6px 0 0;
+}
+/*员工信息新增弹框表单 end*/
+
+/*管理员信息新增 start*/
+.adminTable{
+	width: 660px;
+	/*height: 182px;*/
+	height:	152px;
+	padding-top: 97px;
+}
+.adminTable tbody td{
+	width: 240px;
+}
+.adminTable span{
+	display: inline-block;
+	padding: 50px 0 0 273px;
+	color: #ff0000;
+	text-align: center;
+}
+/*管理员信息新增 end*/
+
+/*预约信息新增 start*/
+.order-box{
+	padding: 53px;
+}
+.order-box .tips{
+	padding-top: 30px;
+	text-align: center;
+}
+/*预约信息新增 end*/
+
+/*部门新增模态框 start*/
+#adminDiv .modal-table tbody th{
+	width: 73px;
+}
+/*部门新增模态框 end*/
+
+/*登记信息查询 start*/
+.registInfo table th{
+	width: auto;
+}
+/*登记信息查询 end*/
+
+/*部门信息新增 start*/
+.dept-pop{
+	height:152px;
+}
+.dept-pop tbody th{
+	width:70px;
+}
+/*部门信息新增 end*/
+
+/*后台框架样式*/
+.navTopbg{
+	width: 100%;
+	height: 110px;
+	background-color: #218cd9;
+}
+.navTop{
+	width: 96%;
+	margin: 0 auto;
+	padding-top: 39px;
+}
+.top-left{
+	float: left;
+}
+.top-right{
+	width: 229px;
+	height: 35px;
+	float: right;
+	padding-top: 25px;
+}
+.top-right ul li{
+	float: left;
+	padding: 0 5px;
+	color: #e9f2f7;
+}
+.top-right ul li a{
+	color: #e9f2f7;
+}
+.top-right ul li a:hover{
+	color: #fff;
+}
+.leftMenu{
+	height: 100%;
+	background-color: #e5f0ff;
+}
+.leftMenu ul li{
+	width: 300px;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	color: #000;
+	cursor: pointer;
+	overflow: hidden;
+}
+.leftMenu ul li a{
+	display: block;
+}
+.leftMenu ul li:hover{
+	background: url(../images/menu_bg.jpg) no-repeat;
+}
+/*全局表格样式 star*/
+.tableFrom table{
+	border: 1px solid #cddaea;
+}
+.tableFrom thead th{
+	height: 48px;
+	line-height: 48px;
+	padding: 0 5px;
+	text-align: center;
+	background: url(../images/tab_line.jpg) repeat-x;
+}
+.tableFrom tbody td{
+	height: 48px;
+	line-height: 48px;
+	padding: 0 5px;
+	text-align: center;
+	border: 1px solid #cddaea;
+}
+.tableFrom tbody a{
+	color: #004080;
+}
+.tableFrom tbody a:hover{
+	color: #f89635;
+}
+.tableFrom tbody tr:hover{
+	background: #d9eafe;
+}
+.odd{
+	background: #f5f8fa;
+}
+/*全局表格样式 end*/
+/*分页样式 start*/
+.page{
+	width: 525px;
+	height: 35px;
+	line-height:35px;
+	padding: 16px 0 16px;
+	margin: 0 auto;
+}
+.page a{
+	/*width: 33px;*/
+	height: 33px;
+	line-height: 33px;
+	display: inline-block;
+	float: left;
+	margin: 0;
+	border: 1px solid #e6e6e6;
+	border-left: 0;
+	text-align: center;
+	color: #404040;
+}
+.page .cur ,.page a:hover{
+	color: #fff;
+	background-color: #ff4400;
+}
+.page .page-prev{
+	width: 33px;
+	background: url(../images/page_prev.jpg) no-repeat;
+	border-left: 1px solid #e6e6e6;
+}
+.page .page-next{
+	width: 33px;
+	background: url(../images/page_next.jpg) no-repeat;
+	border-left: 1px solid #e6e6e6;
+}
+.page span{
+	width: 33px;
+	height: 33px;
+	float: left;
+	line-height: 33px;
+	margin: 0;
+	display: inline-block;
+	text-align: center;
+	/*border-right: 1px solid #e6e6e6;*/
+}
+.page .ipt-text{
+	width: 25px;
+	height: 24px;
+	line-height: 21px;
+	padding: 2px 2px 3px;
+	margin: 2px 4px 0;
+	text-align: center;
+	vertical-align: top;
+}
+.page .page-go{
+	height: 30px;
+	line-height: 30px;
+	float: none;
+	padding: 0 8px;
+	vertical-align: middle;
+	border-left: 1px solid #e6e6e6;
+	margin: 1px 0 5px 2px;
+}
+/*分页样式 end*/
+
+.perInfo{
+	padding: 50px 30px 36px 30px;
+}
+.finger{
+	width: 260px;
+	height: 260px;
+	float: left;
+	margin-right: 160px;
+	background: #f2f2f2;
+}
+.idCard{
+	width: 400px;
+	height: 260px;
+	float: left;
+	display: inline-block;
+	background: #f2f2f2;
+}
+
+/*权限绑定 start*/
+.power-main{
+	float: left;
+	padding: 56px 0 20px 28px;
+}
+.power-main table{
+	padding-top: 83px;
+}
+.fieldsetBox{
+	width: 800px;
+    padding: 87px 0;
+    text-align: left;
+}
+.fieldsetBox fieldset{
+	padding: 20px 20px 24px;
+	border: 1px solid #808080;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	-ms-border-radius: 6px;
+	-o-border-radius: 6px;
+	border-radius: 6px;
+}
+.fieldsetBox fieldset legend{
+	padding: 0 3px;
+	margin: 0 26px;
+}
+.fieldsetBox fieldset label{
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	padding-right: 26px;
+}
+.power-main .btns{
+	/*margin-top: 60px;*/
+	text-align: center;
+}
+.power-main a{
+	padding-left: 25px;
+}
+.power-tree{
+	float: right;
+	width: 284px;
+	height: 100%;
+	background: #e5f0ff;
+}
+.role-text{
+	width: 89px;
+	height: 22px;
+	padding: 4px 5px;
+	border-bottom: 1px solid #d6d6d6;
+	border-top: none;
+	border-right: none;
+	border-left: none;
+	font: 14px/22px Microsoft YaHei;
+	outline: none;
+}
+/*权限绑定 end*/
+
+/*个人信息改密 start*/
+.perTable{
+	padding-top: 200px;
+}
+.perTable table{
+	/*width: 381px;*/
+	margin: 0 auto;
+}
+.perTable table tbody th{
+	width: 89px;
+	height: 45px;
+	padding: 0 6px;
+	text-align: right;
+}
+.perBtn{
+	width: 100%;
+	padding: 51px 0;
+	text-align: center;
+}
+.perBtn a{
+	display: inline-block;
+	padding: 0 25px;
+}
+/*个人信息改密 end*/
+
+/*表单提交错误显示 start*/
+.error{	
+	display: none;
+	padding: 10px 0;
+	text-align:center;
+}
+.error span{
+	color: #ff0000;
+	padding-left: 0;
+}
+/*表单提交错误显示 end*/
+
+/*修改密码错误显示 start*/
+.perTable span{
+	display: none;
+	color: #ff0000;
+	padding-left: 6px;
+}
+/*修改密码错误显示 end*/
+
+/* 弹窗样式 开始 ================== */
+.aui_outer
+{
+	text-align: left;
+}
+table.aui_border, table.aui_dialog
+{
+	border:0;
+	border-collapse: collapse;
+	margin: 0;
+	width: auto;
+}
+table.aui_dialog
+{
+	width: 100%;
+}
+.aui_state_noTitle table.aui_dialog
+{
+	width:auto;
+}
+.aui_nw, .aui_n, .aui_ne, .aui_w, .aui_c, .aui_e, .aui_sw, .aui_s, .aui_se, .aui_header, .aui_tdIcon, .aui_main, .aui_footer
+{
+	padding: 0;
+}
+.aui_state_focus .aui_dialog 
+{
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
+}
+.aui_title
+{
+	height: 50px;
+	font-size:18px;
+	line-height: 50px;
+	padding-left: 17px;
+	color: #fff;
+	background:url(../images/dialog_bg.jpg) repeat-x;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.aui_state_focus .aui_title
+{
+	color: #fff;
+}
+.aui_state_noTitle .aui_title
+{
+	display: none;
+}
+.aui_close, .aui_state_noTitle .aui_close
+{
+	position: absolute;  
+	right: 13px;
+	top: 18px;
+	width: 17px;
+	height:17px;
+	display: inline-block;
+	font:0/0 Arial;
+	text-indent:-999px;
+	overflow:hidden;
+	background: url(../images/dialog_ico.png) no-repeat;
+	z-index:20;
+}
+.aui_state_noTitle .aui_close
+{
+	top:15px;
+	right:15px;
+}
+/*.aui_close:hover, .aui_state_noTitle .aui_close:hover
+{
+	background: url(../images/ico-sprite.png) -19px -275px;
+}
+.aui_close:active, .aui_state_noTitle .aui_close:active
+{
+	background: url(../images/ico-sprite.png) -38px -275px;
+}*/
+.aui_main
+{
+	min-width: 9em;
+}
+.aui_content
+{
+	border: none;
+	display: inline-block;
+	text-align: left;
+}
+.aui_content.aui_state_full
+{
+	display: block;
+	height: 100%;
+	margin: 0;
+	padding: 0 !important;
+	width: 100%;
+}
+.aui_loading
+{
+	background: url("") no-repeat scroll center center rgba(0, 0, 0, 0);
+	height: 32px;
+	overflow: hidden;
+	text-align: left;
+	text-indent: -999em;
+	width: 96px;
+}
+.aui_icon
+{
+	vertical-align: middle;
+}
+.aui_icon div
+{
+	background-position: center center;
+	background-repeat: no-repeat;
+	height: 48px;
+	margin: 10px 0 10px 10px;
+	width: 48px;
+}
+/* 定义按钮样式 开始 ------ */
+.aui_buttons
+{
+	padding: 14px 0 15px;
+	text-align: center;
+	white-space: nowrap;
+	background: #f8fafa;
+}
+.aui_state_noTitle .aui_buttons
+{
+	background:#fff;
+}
+.aui_buttons button
+{
+	display: inline-block;
+	padding:0 26px;
+	height: 37px;
+	margin:0 30px;
+	font:14px/35px Microsoft YaHei;
+	color: #fff;
+	letter-spacing: 2px;
+	border:solid #2776a6;
+	border-width:0 0 2px;
+	text-align: center;
+	background:#48a4dc;
+	border-radius:3px;
+	outline: none;
+	cursor: pointer;
+}
+.aui_buttons button:focus
+{
+	outline: 0 none;
+}
+.aui_buttons button:hover
+{
+	color: #fff;
+	border-bottom-color: #d3841e;
+	background: #fbaa40;
+}
+.aui_buttons button:active
+{
+	color: #fff;
+	border-bottom-color: #c27511;
+	background: #f29a27;
+}
+.aui_buttons button[disabled]
+{
+	color: #fff;
+	border-bottom-color: #b7b7b7;
+	background: #c6c6c6;
+	cursor: default;
+}
+.aui_state_noTitle .aui_buttons
+{
+	width:477px;
+	border-radius:0 0 5px 5px;
+}
+/* 定义按钮样式 结束 --- */
+.aui_inner
+{
+	background:#fff;
+}
+
+.aui_nw, .aui_ne, .aui_sw, .aui_se
+{
+	height: 0;
+	width: 0;
+}
+.aui_state_drag .aui_outer, .aui_outer:active
+{
+	box-shadow: none;
+}
+.aui_titleBar
+{
+	height: 100%;
+	position: relative;
+}
+.aui_state_drag .aui_titleBar
+{
+	box-shadow: none;
+}
+
+.aui_close:active
+{
+	box-shadow: none;
+}
+.aui_state_noTitle .aui_nw, .aui_state_noTitle .aui_ne, .aui_state_noTitle .aui_sw, .aui_state_noTitle .aui_se
+{
+	height: 0;
+	width: 0;
+}
+.aui_state_noTitle .aui_inner
+{
+	background: none;
+	border:none;
+}
+.aui_state_noTitle .aui_outer
+{
+	border: 0 none;
+	box-shadow: none;
+}
+.aui_state_noTitle .aui_nw, .aui_state_noTitle .aui_n, .aui_state_noTitle .aui_ne, .aui_state_noTitle .aui_w, .aui_state_noTitle .aui_e, .aui_state_noTitle .aui_sw, .aui_state_noTitle .aui_s, .aui_state_noTitle .aui_se
+{
+	background: none;
+}
+.aui_state_noTitle .aui_titleBar
+{
+	bottom: 0;
+}
+/* 3种提示信息 弹出窗 */
+.tips-title
+{
+	position:relative;
+	width: 477px;
+	height:166px;
+	text-align: center;
+	border-radius:5px 5px 0 0;
+}
+.tips-title .close
+{
+	position: absolute;  
+	right: 15px;
+	top: 16px;
+	width: 17px;
+	height:17px;
+	display: inline-block;
+	font:0/0 Arial;
+	text-indent:-999px;
+	overflow:hidden;
+	background: url(../images/ico-sprite.png) 0 -275px;
+	cursor:pointer;
+}
+.tips-title .close:hover
+{
+	background: url(../images/ico-sprite.png) -19px -275px;
+}
+.tips-title .close:active
+{
+	background: url(../images/ico-sprite.png) -38px -275px;
+}
+.tips-title h3
+{
+	display:inline-block;
+	width:145px;
+	height:130px;
+	margin: 32px 0 0 50px;
+	background:url(../images/tips-title.png) no-repeat;
+}
+.tips-ask.tips-title
+{
+	background:#35b3ea;
+}
+.tips-ask.tips-title h3
+{
+	background-position:0 -130px;
+}
+.tips-ok.tips-title
+{
+	background:#2fc089;
+}
+.tips-ok.tips-title h3
+{
+	background-position:0 0;
+}
+.tips-ban.tips-title
+{
+	background:#f58347;
+}
+.tips-ban.tips-title h3
+{
+	background-position:0 -260px;
+}
+.tips-cot
+{
+	width:477px;
+	background:#fff;
+}
+.tips-cot table
+{
+	width:100%;
+}
+.tips-cot table td
+{
+	text-align:center;
+	height:85px;
+	line-height:24px;
+	padding:0 50px;
+}
+/* 弹窗样式 结束 ---------------------- */
+
+/*分页样式 end*/
+/*index*/
+.mainindex{padding:20px 20px 20px 30px; overflow:hidden;}
+.welinfo{height:32px; line-height:32px; padding-bottom:8px;}
+.welinfo span{float:left;}
+.welinfo b{padding-left:8px;float: left;}
+.welinfo a{padding-left:15px;color:#3186c8;}
+.welinfo a:hover{color:#F60;}
+.welinfo i{font-style:normal; padding-left:8px;float: left;}
+/*.xline{border-bottom:solid 1px #dfe9ee; height:5px;}*/

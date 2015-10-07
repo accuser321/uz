@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title></title>
+<link rel="stylesheet" type="text/css" href="../css/layout.css">
+</head>
+<body>
+  <div class="mainindex">
+        <div class="welinfo">
+            <span>
+                <img src="../images/sun.png" alt="天气" />
+            </span> <b>Admin早上好，欢迎使用信息管理系统</b>
+          <!-- (admin@uimaker.com)
+            <a href="#">帐号设置</a> -->
+        </div>
+
+        <div class="welinfo">
+            <span>
+                <img src="../images/time.png" alt="时间" />
+            </span> <i>您上次登录的时间：2013-10-09 15:22</i>
+            <!-- （不是您登录的？
+            <a href="#">请点这里</a>） -->
+        </div>
+        <!-- <div class="xline"></div> -->
+    </div>
+</body>
+</html>

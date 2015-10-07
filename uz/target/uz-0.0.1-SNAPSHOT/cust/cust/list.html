@@ -1,0 +1,220 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>jb-aptech毕业设计项目</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../../css/style.css" rel="stylesheet" type="text/css">
+<script src="../../script/common.js"></script>
+</head>
+<body>
+
+<div class="page_title">客户信息管理</div>
+<div class="button_bar">
+	<button class="common_button" onClick="help('');">帮助</button>
+	<button class="common_button" onClick="reload();">查询</button>  
+</div>
+<table class="query_form_table">
+	<tr>
+		<th>客户编号</th>
+		<td><input /></td>
+		<th>名称</th>
+		<td><input /></td>
+		<th>地区</th>
+		<td>
+			<select>
+				<option>全部</option>
+				<option>北京</option>
+				<option>华北</option>
+				<option>中南</option>
+				<option>东北</option>
+				<option>西部</option>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<th>客户经理</th>
+		<td><input /></td>
+		<th>客户等级</th>
+		<td>
+			<select>
+				<option>全部</option>
+				<option>战略合作伙伴</option>
+				<option>合作伙伴</option>
+				<option>大客户</option>
+				<option>普通客户</option>
+			</select>
+		</td>
+		<th>　</th>
+		<td>　</td>
+	</tr>
+</table>
+<br />
+<table class="data_list_table">
+	<tr>
+		<th>序号</th>
+		<th>客户编号</th>
+		<th>名称</th>
+		<th>地区</th>
+		<th>客户经理</th>
+		<th>客户等级</th>
+		<th>操作</th>
+	</tr>
+	<tr>
+		<td class="list_data_number">1</td>
+		<td class="list_data_text">KH101201008</td>
+		<td class="list_data_ltext">世纪商务信息科技有限公司</td>
+		<td class="list_data_text">北京</td>
+		<td class="list_data_text">张大龙</td>
+		<td class="list_data_text">战略合作伙伴</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+			
+			<img onClick="del('“客户：世纪商务信息科技有限公司”');" title="删除" src="../../images/bt_del.gif" class="op_button" />
+			
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_number">2</td>
+		<td class="list_data_text">KH101201008</td>
+		<td class="list_data_ltext">北京晨琪伟业</td>
+		<td class="list_data_text">北京</td>
+		<td class="list_data_text">张大龙</td>
+		<td class="list_data_text">普通客户</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+			
+			<img onClick="del('“客户：世纪商务信息科技有限公司”');" title="删除" src="../../images/bt_del.gif" class="op_button" />
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_number">3</td>
+		<td class="list_data_text">KH101201007</td>
+		<td class="list_data_ltext">北京开心紫乔商贸中心</td>
+		<td class="list_data_text">华北</td>
+		<td class="list_data_text">张小一</td>
+		<td class="list_data_text">重点开发客户</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />&nbsp;<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_number">4</td>
+		<td class="list_data_text">KH101201006</td>
+		<td class="list_data_ltext">世纪商务信息科技有限公司</td>
+		<td class="list_data_text">中南</td>
+		<td class="list_data_text">李自成</td>
+		
+		<td class="list_data_text">重点开发客户</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" /></td>
+	</tr>
+	<tr>
+		<td class="list_data_number">5</td>
+		<td class="list_data_text">KH101201005</td>
+		<td class="list_data_ltext">北京中视益通科技公司</td>
+		<td class="list_data_text">北京</td>
+		<td class="list_data_text">张大龙</td>
+		<td class="list_data_text">大客户</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+			
+			<img onClick="del('“客户：世纪商务信息科技有限公司”');" title="删除" src="../../images/bt_del.gif" class="op_button" /></td>
+	</tr>
+	<tr>
+		<td class="list_data_number">6</td>
+		<td class="list_data_text">KH101201004</td>
+		<td class="list_data_ltext">北京白羽有限责任公司</td>
+		<td class="list_data_text">北京</td>
+		<td class="list_data_text">张大龙</td>
+		<td class="list_data_text">普通客户</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />
+			<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+			
+			<img onClick="del('“客户：世纪商务信息科技有限公司”');" title="删除" src="../../images/bt_del.gif" class="op_button" /></td>
+	</tr>	
+	<tr>
+		<td class="list_data_number" height="15">7</td>
+		<td class="list_data_text" height="15">KH101201003</td>
+		<td class="list_data_ltext" height="15">长城宽带网络服务有限公司</td>
+		<td class="list_data_text" height="15">北京</td>
+		<td class="list_data_text" height="15">阿咪</td>
+		<td class="list_data_text" height="15">大客户</td>
+		<td class="list_data_op" height="15">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />&nbsp;<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+		</td>
+	</tr>	
+	<tr>
+		<td class="list_data_number" height="35">8</td>
+		<td class="list_data_text" height="35">KH101201002</td>
+		<td class="list_data_ltext" height="35">北京博达信息咨询有限公司</td>
+		<td class="list_data_text" height="35">华北</td>
+		<td class="list_data_text" height="35">张小一</td>
+		<td class="list_data_text" height="35">合作伙伴</td>
+		<td class="list_data_op" height="35">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />&nbsp;<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_number">9</td>
+		<td class="list_data_text">KH101201001</td>
+		<td class="list_data_ltext">北京岩基科技有限公司</td>
+		<td class="list_data_text">北京</td>
+		<td class="list_data_text">孙坚</td>
+		<td class="list_data_text">合作伙伴</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />&nbsp;<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+		</td>
+	</tr>
+	<tr>
+		<td class="list_data_number">10</td>
+		<td class="list_data_text">KH091130003</td>
+		<td class="list_data_ltext">北京鸿联信息产业有限公司</td>
+		<td class="list_data_text">北京</td>
+		<td class="list_data_text">李世民</td>
+		<td class="list_data_text">战略合作伙伴</td>
+		<td class="list_data_op">
+			<img onClick="to('edit.html');" title="编辑" src="../../images/bt_edit.gif" class="op_button" />&nbsp;<img onClick="to('linkman.html');" title="联系人" src="../../images/bt_linkman.gif" class="op_button" />
+			<img onClick="to('activities.html');" title="交往记录" src="../../images/bt_acti.gif" class="op_button" />
+			<img onClick="to('orders.html');" title="历史订单" src="../../images/bt_orders.gif" class="op_button" />
+		</td>
+	</tr>
+	<tr>
+		<th colspan="100" class="pager">
+<div class="pager">
+	共59条记录 每页<input value="10" size="2" />条
+	第<input value="1" size="2"/>页/共5页
+	<a href="#">第一页</a>
+	<a href="#">上一页</a>
+	<a href="#">下一页</a>
+	<a href="#">最后一页</a>
+	转到<input value="1" size="2" />页
+	<button width="20" onClick="reload();">GO</button>
+</div>
+		</th>
+	</tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTDHTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <base href="<%=basePath%>">    
+    <title></title>    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/layout.css">
+	<script type="text/javascript" src="<%=basePath%>/script/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="<%=basePath%>/script/common.js"></script>
+	<script type="text/javascript" src="<%=basePath%>/script/datePicker/WdatePicker.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/jquery.artDialog.source.js"></script>
+    <script src="<%=basePath%>/script/iframeTools.source.js"></script>   
+  </head>
+  <body>
+  <div class="fliter-box">
+  	<form:form action="sysUserController/findSysUserListByPage/0.do" id="searchForm" method="post">
+  	<table width="100%" cellpadding="0" cellspacing="0">
+  		<tr>
+  			<th>姓名：</th>
+  			<td width="260"><input class="ipt-text" name="userName" type="text"></td>
+  			<th>性别：</th>
+  				<td>
+  				  <div class="selects">
+	                <select  name="userSex" >
+	                  <option value="" selected="selected">--请选择--</option>
+	                  <option value="1">男</option>
+	                  <option value="0">女</option>
+	                </select>
+            	  </div>
+          		</td>
+  			<th>部门：</th>
+  				<td>
+            <div class="selects">
+      				<select name="deptId">
+      						<option value="" selected="selected">--请选择--</option>
+    					    <c:forEach items="${departList}" var="depart">
+    						  <option value="${depart.deptId }">${depart.deptName }</option>
+    					</c:forEach>      				
+      				</select>
+          </div>
+  				</td> 
+  			<td><a href="javascript:void(0);" onclick="searchSub();"><img src="images/btn_search.png" alt=""    ></a></td>
+  		</tr>
+  		<!-- <tr>
+  			<th>电话：</th>
+  			<td><input class="ipt-text" type="text"></td>
+  			<th>生日：</th>
+  			<td>
+  				<div class="drop-down">
+	                <b class="down-ico" onClick="WdatePicker({el:'ti-ico'})"></b>
+	                <input class="ipt-text Wdate" id="ti-ico" type="text" onClick="WdatePicker()" />
+                </div>
+  			</td>
+  			<th>地址：</th>
+  			<td><input class="ipt-text" type="text"></td>
+  		</tr> -->
+  	</table>
+  	</form:form>
+  </div>
+  <div class="fliter-btn">
+  	<a href="javascript:void(0);"><img src="../images/btn_add.jpg" onclick="popAdd();" alt=""></a>
+  	<a href=""><img src="../images/btn_print.png" alt=""></a>
+  </div>
+  <div class="tableFrom">
+  	<table width="100%">
+  	  <thead>
+  	  	<th><input id="Allchk" type="checkbox"></th>
+  	  	<th>编号</th>
+  	  	<th>姓名</th>
+  	  	<th>性别</th>
+  	  	<th>部门</th>
+  	  	<th>电话</th>
+  	  	<th>创建时间</th>
+  	  	<th>操作</th>
+  	  </thead>
+  	  <tbody>
+  	  	<c:forEach items="${sysUserListByPage}" var="staffs">
+  	  	  <tr>
+  	  		<td><input class="ckh" type="checkbox" value="${staffs.userId}"></td>
+  	  		<td>${staffs.userId}</td>
+  	  		<td>${staffs.userName}</td>
+  	  		<td>${(staffs.userSex eq 1)? "男" : "女"}</td>
+  	  		<td>${staffs.departName}</td>
+			<td>${staffs.userPhone}</td>
+			<td>${staffs.userCreateTime}</td>
+  	  		<td><a href="javascript:void(0)" onclick="modify('${staffs.userId}');" >修改</a> | <a href="javascript:void(0);" onclick="delete_staff('${staffs.userId}');">删除</a></td>
+  	  	  </tr>
+  	  	</c:forEach>
+  	  </tbody>
+  	</table>		
+  </div>
+  <jsp:include page="page.jsp" flush="true">
+		<jsp:param value="/sysUserController/findSysUserListByPage" name="url" />
+		<jsp:param value="userName=${sysuser.userName}&deptId=${sysuser.deptId }&userSex=${sysuser.userSex }" name="param"/>
+  </jsp:include>
+  
+  <!-- 新增弹窗DIV start -->
+  <div id="Popdiv" style="display:none;">
+  	<div class="staff-box">
+      <div class="staff-tab">
+      <form:form action="/sysUserController/addEmployUser.do" method="post" id="addform">
+      	<table width="100%">
+      		<tbody>
+      			<tr>
+      				<th>姓名：</th>
+      				<td width="252"><span>*</span><input id="userName" name="userName" onblur="addChkUserExist();" class="ipt-text" type="text"></td>
+      				<th>电话：</th>
+      				<td><span>*</span><input id="userPhone" name="userPhone"  class="ipt-text" type="text"></td>
+      			</tr>
+      			<tr>
+      				<th>性别：</th>
+      				<td>
+      				  <div class="selects">
+	                    <span>*</span>
+	                    <select  name="userSex" id="userSex">
+	                      <option value="" selected="selected">--请选择--</option>
+	                      <option value="1">男</option>
+	                      <option value="0">女</option>
+	                    </select>
+                </div>
+      				</td>
+      				<th>生日：</th>
+      				<td>
+      				  <span>*</span>
+                <div class="drop-down">      				  
+                    <b class="down-ico" onclick="WdatePicker({el:'bth-ico'})"></b>
+                    <input id="userBirthday" name="userBirthday"  class="ipt-text Wdate" id="bth-ico" type="text" onfocus="WdatePicker()" />
+                    </div>  
+      				</td>
+      			</tr>
+      			<tr>
+      				<th>部门：</th>
+      				<td> 
+              <div class="selects">
+                <span>*</span>   				
+        				<select id="deptId" name="deptId">
+        					<option value="" selected="selected">--请选择--</option>
+        						<c:forEach items="${departList}" var="depart">
+        							<option value="${depart.deptId }">${depart.deptName }</option>
+        						</c:forEach>      				
+        				</select>
+              </div>  
+      				</td>
+      				<th>地址：</th>
+      				<td><span>*</span><input id="userAddress" name="userAddress"  class="ipt-text" type="text"></td>
+      			</tr>
+      			<tr>
+      				<th>密码：</th>
+      				<td><span>*</span><input id="userPass" name="userPass"  class="ipt-text" type="text"></td>
+      			</tr>
+      		</tbody>
+      	</table>
+      	</form:form>
+      </div>
+      <div class="perInfo">
+      	<div class="finger"></div>
+      	<div class="idCard"></div>
+      	<div style="clear:both;"></div>
+      </div>
+      <div class="error"><span></span></div>
+  	</div>
+  </div>
+  <!-- 新增弹窗DIV end -->
+  
+  <!-- 修改弹窗DIV start -->
+  <div id="PopModify" style="display:none;">
+  	<div class="staff-box">
+      <div class="staff-tab">
+      <form:form action="/sysUserController/updateSysUser.do" method="post" id="modifyform">
+      <input type="hidden" id="userid" name="userId"/>
+      	<table width="100%">
+      		<tbody>
+      			<tr>
+      				<th>姓名：</th>
+      				<td width="252"><span>*</span><input id="modify_userName" name="userName" onblur="editChkUserExist();" class="ipt-text" type="text"></td>
+      				<th>电话：</th>
+      				<td><span>*</span><input id="modify_userPhone" name="userPhone"  class="ipt-text" type="text"></td>
+      			</tr>
+      			<tr>
+      				<th>性别：</th>
+      				<td>
+      				  <div class="selects">
+                    <span>*</span>
+                    <select  name="userSex" id="modify_userSex">
+                      <option value="" selected="selected">--请选择--</option>
+                      <option value="1">男</option>
+                      <option value="0">女</option>
+                    </select>
+                </div>
+      				</td>
+      				<th>生日：</th>
+      				<td>
+      				  <span>*</span>
+                <div class="drop-down">      				  
+                    <b class="down-ico" onclick="WdatePicker({el:'bth-ico'})"></b>
+                    <input id="modify_userBirthday" name="userBirthday"  class="ipt-text Wdate" id="bth-ico" type="text" onfocus="WdatePicker()" />
+                    </div>  
+      				</td>
+      			</tr>
+      			<tr>
+      				<th>部门：</th>
+      				<td> 
+              <div class="selects">
+                <span>*</span>   				
+        				<select id="modify_deptId" name="deptId">
+        				</select>
+              </div>  
+      				</td>
+      				<th>地址：</th>
+      				<td><span>*</span><input id="modify_userAddress" name="userAddress"  class="ipt-text" type="text"></td>
+      			</tr>
+      			<tr>
+      				<th>密码：</th>
+      				<td><span>*</span><input id="modify_userPass" name="userPass"  class="ipt-text" type="text"></td>
+      			</tr>
+      		</tbody>
+      	</table>
+      	</form:form>
+      </div>
+      <div class="perInfo">
+      	<div class="finger"></div>
+      	<div class="idCard"></div>
+      	<div style="clear:both;"></div>
+      </div>
+      <div class="error"><span></span></div>
+  	</div>
+  </div>
+  <!-- 修改弹窗DIV end -->
+  
+</body>
+</html>

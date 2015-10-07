@@ -1,0 +1,183 @@
+package evo.model;
+
+import java.util.List;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+import evo.util.Page;
+
+public class Visitor{
+	private Integer visitorId;
+
+    private String name;
+
+    private String phoneNum;
+
+    private String idNum;
+
+    private String companyName;
+
+    private Integer sex;
+
+    private Integer visiable;
+
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private String modifyTime;
+
+	@JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private String createTime;
+	
+	private Integer staff;
+
+    private String finger1Path;
+
+    private String finger2Path;
+
+    private String finger3Path;
+    
+    private byte[] finger1Photo;
+    private byte[] finger2Photo;
+    private byte[] finger3Photo;
+    
+    //在One方持有N方的List
+    private List<VisitorRegister> visitorRegisters;
+
+    
+	public byte[] getFinger1Photo() {
+		return finger1Photo;
+	}
+
+	public void setFinger1Photo(byte[] finger1Photo) {
+		this.finger1Photo = finger1Photo;
+	}
+
+	public byte[] getFinger2Photo() {
+		return finger2Photo;
+	}
+
+	public void setFinger2Photo(byte[] finger2Photo) {
+		this.finger2Photo = finger2Photo;
+	}
+
+	public byte[] getFinger3Photo() {
+		return finger3Photo;
+	}
+
+	public void setFinger3Photo(byte[] finger3Photo) {
+		this.finger3Photo = finger3Photo;
+	}
+
+	public Integer getStaff() {
+		return staff;
+	}
+
+	public void setStaff(Integer staff) {
+		this.staff = staff;
+	}
+
+	public Integer getVisitorId() {
+		return visitorId;
+	}
+
+	public void setVisitorId(Integer visitorId) {
+		this.visitorId = visitorId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPhoneNum() {
+		return phoneNum;
+	}
+
+	public void setPhoneNum(String phoneNum) {
+		this.phoneNum = phoneNum;
+	}
+
+	public String getIdNum() {
+		return idNum;
+	}
+
+	public void setIdNum(String idNum) {
+		this.idNum = idNum;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public Integer getSex() {
+		return sex;
+	}
+
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+
+	public Integer getVisiable() {
+		return visiable;
+	}
+
+	public void setVisiable(Integer visiable) {
+		this.visiable = visiable;
+	}
+
+	public String getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(String modifyTime) {
+		this.modifyTime = modifyTime;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getFinger1Path() {
+		return finger1Path;
+	}
+
+	public void setFinger1Path(String finger1Path) {
+		this.finger1Path = finger1Path;
+	}
+
+	public String getFinger2Path() {
+		return finger2Path;
+	}
+
+	public void setFinger2Path(String finger2Path) {
+		this.finger2Path = finger2Path;
+	}
+
+	public String getFinger3Path() {
+		return finger3Path;
+	}
+
+	public void setFinger3Path(String finger3Path) {
+		this.finger3Path = finger3Path;
+	}
+
+	public List<VisitorRegister> getVisitorRegisters() {
+		return visitorRegisters;
+	}
+
+	public void setVisitorRegisters(List<VisitorRegister> visitorRegisters) {
+		this.visitorRegisters = visitorRegisters;
+	}
+
+
+}

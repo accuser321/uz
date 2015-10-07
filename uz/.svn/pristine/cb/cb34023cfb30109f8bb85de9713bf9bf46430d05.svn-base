@@ -1,0 +1,225 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTDHTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <base href="<%=basePath%>">    
+    <title>部门信息</title>    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/layout.css">
+	<script type="text/javascript" src="<%=basePath%>/script/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/common.js"></script> 
+    <script type="text/javascript" src="<%=basePath%>/script/jquery.artDialog.source.js"></script>
+  </head>
+  
+  <body>
+  <div class="fliter-box">
+  <form action="/departmentControll/findAllDepartment/0.do" method="post">
+	  	<table width="40%" cellpadding="0" cellspacing="0">
+	  		<tr>
+	  			<th style="width:79px;">部门名称：</th>
+	  			<td><input id="schDept" class="ipt-text" type="text" name="deptName"></td>
+	  			<td><a href="javascript:void(0);" onclick="schDept();"><img src="images/btn_search.png" alt=""></a></td>
+	  		</tr>
+	  	</table>
+  	</form>
+  </div>
+  <div class="fliter-btn">
+  	<a href="javascript:void(0);" onclick="addDept();"><img src="../images/btn_add.jpg" alt=""></a>
+  </div>
+  <div class="tableFrom">
+  	<table width="100%">
+  	  <thead>
+  	  	<th><input id="Allchk" type="checkbox"></th>
+  	  	<th>部门名称</th>
+  	  	<th>上级部门名称</th>
+  	  	<th>创建时间</th>
+  	  	<th>操作</th>
+  	  </thead>
+  	  <tbody>
+  	  	<c:forEach items="${list}" var="depart">
+  	  	<tr>
+  	  		<td><input class="ckh" type="checkbox"></td>
+  	  		<td>${depart.deptName }</td>
+  	  		<td>${depart.parentDepart.deptName }</td>
+  	  		<td>${depart.userCreateTime }</td>
+  	  		<td><a href="javascript:void(0);" onclick="modifyDepart('${depart.deptId }')" >修改</a> | <a href="javascript:void(0);" onclick="delDepart('${depart.deptId }')">删除</a></td>
+  	  	</tr>
+  	  	</c:forEach>
+  	  </tbody>
+  	</table>
+  </div>
+  <jsp:include page="page.jsp" flush="true">
+		<jsp:param value="/departmentControll/findAllDepartment" name="url" />
+		<jsp:param value="deptName=${sysDepartment.deptName}" name="param"/>
+  </jsp:include>
+  <!-- 新增弹窗DIV start -->
+  <div id="depDiv" style="display:none;">
+  	<div class="adminTable modal-table dept-pop">
+      <form:form action="/departmentControll/addDepartment.do" method="post" id="deptFrom">
+  		<table>
+  			<tbody>
+  				<tr>
+  					<th>部门名称：</th>
+  					<td><input id="deptName" name="deptName" class="ipt-text" type="text"></td>
+  					<th>上级部门：</th>
+  					<td>
+  					  <div class="selects">
+	                    <select id="parentDeptId" name="parentDeptId">
+	                        <span>*</span>
+	                    	<option value="" selected="selected">--请选择--</option> 
+	                   		 <c:forEach items="${departList}" var="dept" >
+	                      		<option value="${dept.deptId }">${dept.deptName }</option> 
+	                       </c:forEach>
+	                    </select>
+              </div>
+  					</td>
+  				</tr>
+  			</tbody>
+  		</table>
+  		</form:form>
+  		<div class="error"><span></span></div>
+  	</div>
+  </div>		 	  
+  <!-- 新增弹窗DIV end -->
+
+  <!-- 修改弹窗DIV start -->
+  <div id="depModfiyDiv" style="display:none;">
+    <div class="adminTable modal-table dept-pop">
+      <form:form action="/departmentControll/modifyDepartment.do" method="post" id="deptModFrom">
+      <input id="modify_depitid" name="deptId" type="hidden" /> 
+      <table>
+        <tbody>
+          <tr>
+            <th>部门名称：</th>
+            <td><input id="mod_deptName" name="deptName" class="ipt-text" type="text"></td>
+            <th>上级部门：</th>
+            <td>
+              <div class="selects">
+                      <select id="mod_deptId" name="parentDeptId">
+                          <span>*</span>
+                      </select>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </form:form>
+      <div class="error"><span></span></div>
+    </div>
+  </div>        
+  <!-- 修改弹窗DIV end -->
+</body>
+<script type="text/javascript">
+  
+  function delDepart(_deptId){
+	  if(_deptId==0){
+		  alert("公司名称不能删除！");
+		  return false;
+	  }else{
+	    if(confirm("请确认是否删除？")){
+		  $.get("/departmentControll/delDepartment/"+_deptId+".do",null,function(msg){
+			  window.location.href = "/departmentControll/findAllDepartment/0.do";
+		  });  
+	    }
+	  }
+  }
+  
+  function addDept(){
+	art.dialog({
+		title:"新增",  //这是标题
+		padding:'10px 15px',  //这是内补丁，默认为10px
+		content: document.getElementById('depDiv'), //这个ID就是页面里面那个藏着的div的ID
+		lock:true,   //这表示是否出现背景遮罩层
+		opacity:0.5,  //这表示遮罩层的背景透明度，默认这个数值
+		id:'newClass', //加了id可以防止多次弹出同一个窗口
+		ok: function () {
+    	  // this.title('3秒后自动关闭').time(3);
+    	  var deptname= $.trim($("#deptName").val()); 
+    	  var upDept= $("#parentDeptId").val();
+    	  
+    	  if(deptname.length==0){
+    	    $("#depDiv .error").css({"display":"block"});
+	        $('#depDiv .error span').html('请输入部门名称！');
+	        return false;
+    	  }
+    	  if(upDept.length==0){
+    	    $("#depDiv .error").css({"display":"block"});
+	        $('#depDiv .error span').html('请选择员工所在上级部门！');
+	        return false;
+    	  }
+    	  
+    	  $("#deptFrom").submit();
+    	  
+        },
+        cancelVal:'取消',
+        cancel:true
+		
+	   });
+	}
+  
+  function modifyDepart(deptId){
+    $.post("/departmentControll/searchDepartment.do",{deptId:deptId},function(msg){
+        var json_str = eval("("+msg+")"); 
+        var singleDepartment = json_str.singleDepartment;
+        $("#mod_deptName").val(singleDepartment.deptName);
+        $("#mod_deptId").append("<option value=''>--请选择--</option>");
+        var departList = json_str.departList;
+       
+        for(var i =0;i<departList.length;i++ ){
+          var depart = departList[i];
+          var htl;
+          if(depart.deptId==singleDepartment.parentDeptId){
+             htl = "<option value='"+depart.deptId+"' selected='selected'>"+depart.deptName+"</option>";
+          }else{
+             htl = "<option value='"+depart.deptId+"'>"+depart.deptName+"</option>";
+          }
+          $("#mod_deptId").append(htl);
+        }
+        art.dialog({
+        title:"修改",  //这是标题
+        padding:'10px 15px',  //这是内补丁，默认为10px
+        content: document.getElementById('depModfiyDiv'), 
+        lock:true,   //这表示是否出现背景遮罩层
+        opacity:0.5,  //这表示遮罩层的背景透明度，默认这个数值
+        id:'newCla', //加了id可以防止多次弹出同一个窗口
+        ok: function () {
+            var deptname= $.trim($("#mod_deptName").val()); 
+            var upDept= $("#mod_deptId").val();
+            
+            if(deptname.length==0){
+              $("#depModfiyDiv .error").css({"display":"block"});
+              $('#depModfiyDiv .error span').html('请输入要修改的部门名称！');
+              return false;
+            }
+            if(upDept.length==0){
+              $("#depModfiyDiv .error").css({"display":"block"});
+              $('#depModfiyDiv .error span').html('请选择员工所在上级部门！');
+              return false;
+            }
+            $("#modify_depitid").val(deptId);
+            $("#deptModFrom").submit();
+            
+            },
+            cancelVal:'取消',
+            cancel:true
+          });
+        
+        });
+    }
+  
+  function schDept(){
+	  var department= $.trim($("#schDept").val());
+	  window.location.href="/departmentControll/findAllDepartment/0.do?deptName="+department+"";
+  };
+  </script>
+</html>

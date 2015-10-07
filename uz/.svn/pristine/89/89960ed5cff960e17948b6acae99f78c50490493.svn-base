@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.AppointMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.Appoint" >
+    <id column="appoint_id" property="appointId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    appoint_id, name, phone_num, id_num, company_name, sex
+  </sql>
+  
+  <!-- 查询所有预约信息 -->
+  <select id="findAppointList" resultMap="BaseResultMap">
+  	select 
+  	a.appoint_id,
+  	a.name,
+  	a.phone_num,
+  	a.id_num,
+  	a.company_name,
+  	a.sex
+  	from 
+  	appoint as a
+  </select>
+  
+  <!-- 查询所有预约信息-分页 -->
+  <select id="findAppointListByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+	  	select 
+	  	a.appoint_id,
+	  	a.name,
+	  	a.phone_num,
+	  	a.id_num,
+	  	a.company_name,
+	  	a.sex
+	  	from appoint as a
+  	<where>
+  	<if test="appoint.name != null and !&quot;&quot;.equals(appoint.name.trim())"> and name like concat('%',#{appoint.name},'%')</if>
+    <if test="appoint.phoneNum != null and !&quot;&quot;.equals(appoint.phoneNum.trim())"> and phone_num = #{appoint.phoneNum}</if>
+  	</where>
+  	order by appoint_id
+  </select>
+  
+  <!-- 插入,预约表Appoint对象 -->
+  <insert id="insertAppoint"  parameterType="evo.model.Appoint" useGeneratedKeys="true" keyProperty="appointId">
+  insert into appoint
+  (appoint_id, name, phone_num, id_num, company_name, sex)
+  values (#{appointId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{idNum,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <!-- 删除预约信息(根据预约id) -->
+  <delete id="deleteAppointByAppointId" parameterType="java.lang.Integer">
+  	delete from appoint
+  	where appoint_id = #{appointId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 根据手机号修改预约信息 -->
+  <update id="updateAppointByPhoneNum" parameterType="evo.model.Appoint">
+  	update appoint
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+    </set>
+    where phone_num = #{phoneNum,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 根据手机号查询.预约表Appoint对象 -->
+  <select id="findAppointByPhoneNum" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+  	<include refid="Base_Column_List" />
+    from appoint
+    where phone_num = #{phoneNum,jdbcType=VARCHAR}
+    
+    order by appoint_id desc limit 1
+  </select>
+  
+  
+  
+     <!-- 以下是自动生成的SQL -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from appoint
+    where appoint_id = #{appointId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from appoint
+    where appoint_id = #{appointId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="evo.model.Appoint" >
+    insert into appoint (appoint_id, name, phone_num, 
+      id_num, company_name, sex
+      )
+    values (#{appointId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{idNum,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="evo.model.Appoint" >
+    insert into appoint
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="appointId != null" >
+        appoint_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phoneNum != null" >
+        phone_num,
+      </if>
+      <if test="idNum != null" >
+        id_num,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="appointId != null" >
+        #{appointId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="evo.model.Appoint" >
+    update appoint
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+    </set>
+    where appoint_id = #{appointId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="evo.model.Appoint" >
+    update appoint
+    set name = #{name,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER}
+    where appoint_id = #{appointId,jdbcType=INTEGER}
+  </update>
+</mapper>

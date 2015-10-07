@@ -1,0 +1,100 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTDHTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <base href="<%=basePath%>">    
+    <title>个人信息</title>    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">
+	<link rel="stylesheet" type="text/css" href="<%=basePath%>/css/layout.css">
+	<script type="text/javascript" src="<%=basePath%>/script/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="<%=basePath%>/script/common.js"></script> 
+    <script type="text/javascript" src="<%=basePath%>/script/jquery.artDialog.source.js"></script>
+  </head>
+  
+  <body>
+  <div class="perTable">
+  	<table>
+  		<tbody>
+  			<tr>
+  				<th>当前密码：</th>
+  				<td><input id="curPwd" type="password" maxlength="12" class="ipt-text"><span class="curpwd"></span></td>
+  			</tr>
+  			<tr>
+  				<th>新密码：</th>
+  				<td><input id="newPwd" type="password" maxlength="12" class="ipt-text"><span class="newpwd"></span></td>
+  			</tr>
+  			<tr>
+  				<th>确认密码：</th>
+  				<td><input id="okPwd" type="password" maxlength="12" class="ipt-text"><span class="okpwd"></span></td>
+  			</tr>
+  		</tbody>
+  	</table>
+  	<div class="perBtn">
+      <a href="javascript:void(0);" onclick="modifyPwd();"><img src="../images/btn_ok.jpg" alt=""></a>
+      <a href="javascript:void(0);"><img src="../images/btn_cancel.jpg" alt=""></a>
+  	</div>
+  </div>
+  <script type="text/javascript">
+    function modifyPwd(){
+      var curpwd= $.trim($("#curPwd").val());
+      var newpwd= $.trim($("#newPwd").val());
+      var okpwd= $.trim($("#okPwd").val());
+      var name= '${user.userName}';
+      var pwd= '${user.userPass}';
+      if(curpwd.length==0){
+        $(".curpwd").css({"display":"inline-block"});
+        $(".curpwd").html("请输入您的当前登录密码！");
+        $("#curpwd").focus();
+      }
+      if(newpwd.length==0){
+        $(".newpwd").css({"display":"inline-block"});
+        $(".newpwd").html("您的新密码不能为空！");
+        $("#newpwd").focus();
+      }
+      if(okpwd.length==0){
+        $(".okpwd").css({"display":"inline-block"});
+        $(".okpwd").html("新密码确认不能是空！")
+        $("#okpwd").focus();
+      }
+      if(curpwd!=pwd){
+         $(".curpwd").css({"display":"inline-block"});
+         $(".curpwd").html("您的当前登录密码错误！")
+         $("#curpwd").focus();
+      }else if(newpwd!=okpwd){
+         $(".okpwd").css({"display":"inline-block"});
+         $(".okpwd").html("两次输入的密码不一致！");
+         $("#okpwd").focus();
+      }else{
+         // $.ajax({
+         //      url:"/sysUserController/updateSysUserByName.do",
+         //      type:"post",
+         //      cache:"false",
+         //      data:"{userPass:newpwd}",
+         //      success:function(msg){
+         //        var json_str=eval("("+'msg'+")");
+         //        if(json_str.msg==f){
+         //           $(".okpwd").css({"display":"inline-block"});
+         //           $(".okpwd").html("两次输入的密码不一致！");
+         //           $(".okpwd").focus();
+         //        }else{
+         //           window.location.href="/sysUserController/updateSysUserByName.do?userName="+name+"";
+         //        }
+         //      }
+         // })
+         window.location.href="/sysUserController/updateSysUserByName.do?userPass="+newpwd;
+      }
+
+    }
+   
+  </script>
+</body>
+</html>

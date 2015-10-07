@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.VisitorRegisterMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.VisitorRegister" >
+    <id column="register_id" property="registerId" jdbcType="INTEGER" />
+    <result column="register_time" property="registerTime" jdbcType="VARCHAR" />
+    <result column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    <result column="titie" property="titie" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    register_id, register_time, visitor_id,titie
+  </sql>
+  
+  <!-- 查询所有访问者记录 -->
+  <select id="findVisitorRegisterList" resultMap="BaseResultMap" parameterType="java.util.Map">
+	  select 
+	  <include refid="Base_Column_List" />
+	  from 
+	  visitor_register
+  </select>
+  
+   <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+	  select 
+	  <include refid="Base_Column_List" />
+	  from 
+	  visitor_register where visitor_id = #{visitorId,jdbcType=INTEGER} and  DATE_FORMAT(register_time,'%Y-%m-%d') = #{today,jdbcType=VARCHAR}  order by register_time 
+  </select>
+  
+  <!-- 根据访问者的手机号查询访问者记录List -->
+  <select id="findVisitorRegisterByVisitorList" resultMap="findVisitor">
+  	select
+  	a.visitor_id,
+  	a.name,
+  	a.phone_num,
+  	a.finger_path,
+  	a.id_num,
+  	a.company_name,
+  	a.sex,
+  	a.visiable,
+  	a.modify_time,
+  	a.create_time,
+  	a.id_code,
+  	b.register_id,
+  	b.register_time,
+  	b.visitor_id
+  	from visitor as a,visitor_register as b
+  	where b.visitor_id = a.visitor_id and a.phone_num = #{0}
+  
+  </select>
+  <resultMap id="findVisitor" type="evo.model.VisitorRegister" >
+	    <id column="register_id" property="registerId" jdbcType="INTEGER" />
+	    <result column="register_time" property="registerTime" jdbcType="VARCHAR" />
+	    <result column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    <association property="visitors" javaType="evo.model.Visitor">
+	    <id column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+	    <result column="finger_path" property="fingerPath" jdbcType="VARCHAR" />
+	    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+	    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+	    <result column="sex" property="sex" jdbcType="INTEGER" />
+	    <result column="visiable" property="visiable" jdbcType="INTEGER" />
+	    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+	    <result column="staff" property="staff" jdbcType="INTEGER" />
+	    <result column="id_code" property="idCode" jdbcType="VARCHAR" />
+    </association>
+  </resultMap>
+  
+  <!-- 根据visitor查询访问记录List -->
+  <select id="findVisitorRegisterListByVisitorId"  resultMap="BaseResultMap"  parameterType="java.lang.Integer">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from visitor_register where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据VisitorRegisterId删除访问记录 -->
+    <delete id="deleteVisitorRegisterByVisitorRegisterId"  parameterType="java.lang.Integer">
+  
+  	delete from visitor_register
+  	where register_id = #{registerId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 插入访问记录 -->
+  <insert id="insertVisitorRegister"  parameterType="Object" useGeneratedKeys="true" keyProperty="registerId">
+  	insert into visitor_register(register_id, register_time, visitor_id)
+  	values(#{registerId,jdbcType=INTEGER},#{registerTime,jdbcType=VARCHAR},#{visitorId,jdbcType=INTEGER})
+  </insert>
+  
+  <!-- 查询所有来访记录List-分页 -->
+  <select id="findVisitorRegisterListByPage" resultMap="findVisitor" parameterType="java.util.Map">
+  	select 
+  	b.company_name,
+  	b.name,
+  	b.phone_num,
+  	b.staff,
+  	a.register_time,
+  	a.register_id,
+  	b.visitor_id
+  	from visitor_register  as a , visitor as b where 1=1
+  	and a.visitor_id = b.visitor_id 
+  	<if test="visitorregister.visotorCompanyName != null and !&quot;&quot;.equals(visitorregister.visotorCompanyName)"> and b.company_name like concat('%',#{visitorregister.visotorCompanyName},'%')</if>
+  	<if test="visitorregister.visitorName != null and !&quot;&quot;.equals(visitorregister.visitorName)"> and b.name like concat('%',#{visitorregister.visitorName},'%')</if>
+  	<if test="visitorregister.visitorPhoneNum != null and !&quot;&quot;.equals(visitorregister.visitorPhoneNum)"> and b.phone_num like concat('%', #{visitorregister.visitorPhoneNum},'%')</if>
+  	<if test="visitorregister.starff != null and !&quot;&quot;.equals(visitorregister.starff)"> and b.staff = #{visitorregister.starff}</if>
+  	<if test="visitorregister.startTime != null and !&quot;&quot;.equals(visitorregister.startTime)"> and a.register_time between #{visitorregister.startTime} and #{visitorregister.endTime} </if>
+  </select>
+  
+  
+  
+</mapper>

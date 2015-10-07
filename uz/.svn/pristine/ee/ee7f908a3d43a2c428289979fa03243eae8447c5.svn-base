@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.VisitorMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.Visitor" >
+    <id column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="visiable" property="visiable" jdbcType="INTEGER" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="staff" property="staff" jdbcType="INTEGER" />
+    <result column="finger1_path" property="finger1Path" jdbcType="VARCHAR" />
+    <result column="finger2_path" property="finger2Path" jdbcType="VARCHAR" />
+    <result column="finger3_path" property="finger3Path" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="evo.model.Visitor" extends="BaseResultMap" >
+    <result column="finger1_photo" property="finger1Photo" jdbcType="LONGVARBINARY" />
+    <result column="finger2_photo" property="finger2Photo" jdbcType="LONGVARBINARY" />
+    <result column="finger3_photo" property="finger3Photo" jdbcType="LONGVARBINARY" />
+  </resultMap>
+  
+  <resultMap id="findVisitorRegisterListMap" type="evo.model.Visitor" >
+    <id column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="id_num" property="idNum" jdbcType="VARCHAR" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="visiable" property="visiable" jdbcType="INTEGER" />
+    <result column="modify_time" property="modifyTime" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="staff" property="staff" jdbcType="INTEGER" />
+    <result column="finger1_path" property="finger1Path" jdbcType="VARCHAR" />
+    <result column="finger2_path" property="finger2Path" jdbcType="VARCHAR" />
+    <result column="finger3_path" property="finger3Path" jdbcType="VARCHAR" />
+    <collection property="visitorRegisters" javaType="java.util.List" ofType="evo.model.VisitorRegister">
+    	<id column="register_id" property="registerId" jdbcType="INTEGER" />
+	    <result column="register_time" property="registerTime" jdbcType="VARCHAR" />
+	    <result column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    </collection>
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List" >
+    visitor_id, name, phone_num, id_num, company_name, sex, visiable, modify_time, 
+    create_time,staff,finger1_path,finger2_path,finger3_path
+  </sql>
+  <sql id="Blob_Column_List" >
+    finger1_photo, finger2_photo, finger3_photo
+  </sql>
+  
+   <!-- 查找所有访问人员List -分页 -->
+  <select id="findVisitorByPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+     select 
+    <include refid="Base_Column_List" />
+  	 from visitor 
+  	 <where>
+   	<if test="vis.name != null and !&quot;&quot;.equals(vis.name.trim())"> and name = #{vis.name}</if>
+    <if test="vis.phoneNum != null and !&quot;&quot;.equals(vis.phoneNum.trim())"> and phone_num = #{vis.phoneNum}</if>
+    <if test="vis.companyName != null and !&quot;&quot;.equals(vis.companyName.trim())"> and company_name = #{vis.companyName}</if>
+ 	</where>
+  order by create_time desc
+  </select>
+  
+  
+   <select id="findAllVisitor" resultMap="BaseResultMap">
+  	 select 
+   		 <include refid="Base_Column_List" />
+  	 from visitor 
+   order by create_time desc
+  </select>
+  
+  <select id="findAllPhoneNum" resultMap="BaseResultMap">
+  	 select 
+   		 <include refid="Base_Column_List" />
+  	 from visitor 
+   order by create_time desc
+  </select>
+  
+  
+  <!-- 查询所有预约信息-分页 -->
+  <!-- <select id="findAppointListByPage" parameterType="java.util.Map" resultMap="BaseResultMap">
+	  	select 
+	  	a.appoint_id,
+	  	a.name,
+	  	a.phone_num,
+	  	a.id_num,
+	  	a.company_name,
+	  	a.sex
+	  	from appoint as a
+  	<where>
+  	<if test="appoint.name != null and !&quot;&quot;.equals(appoint.name.trim())"> and name like concat('%',#{appoint.name},'%')</if>
+    <if test="appoint.phoneNum != null and !&quot;&quot;.equals(appoint.phoneNum.trim())"> and phone_num = #{appoint.phoneNum}</if>
+  	</where>
+  	order by appoint_id
+  </select> -->
+  
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from visitor
+    where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 根据手机号查询,来访表Visitor对象 -->
+    <select id="findVisitorByPhoneNum" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    visitor_id, name, phone_num, id_num, company_name, sex, visiable, modify_time, 
+    create_time,staff,finger1_path,finger2_path,finger3_path
+    from visitor
+    where phone_num = #{phoneNum,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 新增,来访表Vistor记录 -->
+  <insert id="insertVistor" parameterType="Object" useGeneratedKeys="true" keyProperty="visitorId">
+  	insert into visitor (visitor_id, name, phone_num, 
+      id_num, staff, company_name, 
+      sex, visiable, modify_time, 
+      create_time, finger1_path, finger2_path, 
+      finger3_path, finger1_photo, finger2_photo, 
+      finger3_photo)
+    values (#{visitorId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{idNum,jdbcType=VARCHAR}, #{staff,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{visiable,jdbcType=INTEGER}, #{modifyTime,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{finger1Path,jdbcType=VARCHAR}, #{finger2Path,jdbcType=VARCHAR}, 
+      #{finger3Path,jdbcType=VARCHAR}, #{finger1Photo,jdbcType=LONGVARBINARY}, #{finger2Photo,jdbcType=LONGVARBINARY}, 
+      #{finger3Photo,jdbcType=LONGVARBINARY})
+  </insert>
+  
+  
+  <!-- 删除来访者 -->
+  <delete id="deleteVisitorByVisitorId"  parameterType="java.lang.Integer">
+  
+  	delete from visitor
+  	where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </delete>
+  
+   <!-- 以下是自动生成的SQL -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from visitor
+    where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="evo.model.VisitorWithBLOBs" >
+    insert into visitor (visitor_id, name, phone_num, 
+      id_num, company_name, 
+      sex, visiable, modify_time, 
+      create_time, finger1_path, finger2_path, 
+      finger3_path, finger1_photo, finger2_photo, 
+      finger3_photo)
+    values (#{visitorId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{idNum,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{visiable,jdbcType=INTEGER}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{finger1Path,jdbcType=VARCHAR}, #{finger2Path,jdbcType=VARCHAR}, 
+      #{finger3Path,jdbcType=VARCHAR}, #{finger1Photo,jdbcType=LONGVARBINARY}, #{finger2Photo,jdbcType=LONGVARBINARY}, 
+      #{finger3Photo,jdbcType=LONGVARBINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="evo.model.VisitorWithBLOBs" >
+    insert into visitor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="visitorId != null" >
+        visitor_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phoneNum != null" >
+        phone_num,
+      </if>
+      <if test="idNum != null" >
+        id_num,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="visiable != null" >
+        visiable,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="finger1Path != null" >
+        finger1_path,
+      </if>
+      <if test="finger2Path != null" >
+        finger2_path,
+      </if>
+      <if test="finger3Path != null" >
+        finger3_path,
+      </if>
+      <if test="finger1Photo != null" >
+        finger1_photo,
+      </if>
+      <if test="finger2Photo != null" >
+        finger2_photo,
+      </if>
+      <if test="finger3Photo != null" >
+        finger3_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="visitorId != null" >
+        #{visitorId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="visiable != null" >
+        #{visiable,jdbcType=INTEGER},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finger1Path != null" >
+        #{finger1Path,jdbcType=VARCHAR},
+      </if>
+      <if test="finger2Path != null" >
+        #{finger2Path,jdbcType=VARCHAR},
+      </if>
+      <if test="finger3Path != null" >
+        #{finger3Path,jdbcType=VARCHAR},
+      </if>
+      <if test="finger1Photo != null" >
+        #{finger1Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger2Photo != null" >
+        #{finger2Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger3Photo != null" >
+        #{finger3Photo,jdbcType=LONGVARBINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="evo.model.VisitorWithBLOBs" >
+    update visitor
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        phone_num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="idNum != null" >
+        id_num = #{idNum,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="visiable != null" >
+        visiable = #{visiable,jdbcType=INTEGER},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="finger1Path != null" >
+        finger1_path = #{finger1Path,jdbcType=VARCHAR},
+      </if>
+      <if test="finger2Path != null" >
+        finger2_path = #{finger2Path,jdbcType=VARCHAR},
+      </if>
+      <if test="finger3Path != null" >
+        finger3_path = #{finger3Path,jdbcType=VARCHAR},
+      </if>
+      <if test="finger1Photo != null" >
+        finger1_photo = #{finger1Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger2Photo != null" >
+        finger2_photo = #{finger2Photo,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="finger3Photo != null" >
+        finger3_photo = #{finger3Photo,jdbcType=LONGVARBINARY},
+      </if>
+    </set>
+    where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="evo.model.VisitorWithBLOBs" >
+    update visitor
+    set name = #{name,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      visiable = #{visiable,jdbcType=INTEGER},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      finger1_path = #{finger1Path,jdbcType=VARCHAR},
+      finger2_path = #{finger2Path,jdbcType=VARCHAR},
+      finger3_path = #{finger3Path,jdbcType=VARCHAR},
+      finger1_photo = #{finger1Photo,jdbcType=LONGVARBINARY},
+      finger2_photo = #{finger2Photo,jdbcType=LONGVARBINARY},
+      finger3_photo = #{finger3Photo,jdbcType=LONGVARBINARY}
+    where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="evo.model.Visitor" >
+    update visitor
+    set name = #{name,jdbcType=VARCHAR},
+      phone_num = #{phoneNum,jdbcType=VARCHAR},
+      id_num = #{idNum,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      visiable = #{visiable,jdbcType=INTEGER},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      finger1_path = #{finger1Path,jdbcType=VARCHAR},
+      finger2_path = #{finger2Path,jdbcType=VARCHAR},
+      finger3_path = #{finger3Path,jdbcType=VARCHAR}
+    where visitor_id = #{visitorId,jdbcType=INTEGER}
+  </update>
+</mapper>

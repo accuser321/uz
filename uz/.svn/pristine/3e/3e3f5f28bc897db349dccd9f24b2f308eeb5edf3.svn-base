@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="evo.dao.UserMonthTimeMapper" >
+  <resultMap id="BaseResultMap" type="evo.model.UserMonthTime" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <!-- <result column="user_name" property="userName" jdbcType="VARCHAR" /> -->
+    <result column="today" property="today" jdbcType="VARCHAR" />
+    <result column="work_time" property="workTime" jdbcType="BIGINT" />
+    <result column="out_time" property="outTime" jdbcType="BIGINT" />
+    <result column="illigal_time" property="illigalTime" jdbcType="BIGINT" />
+    <result column="over_time" property="overTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id,user_name, today, work_time, out_time, illigal_time,over_time
+  </sql>
+  
+  <!-- 查询所有信息 -->
+  <select id="findUserMonthTimeList" resultMap="BaseResultMap">
+  	select 
+  	a.id,
+  	a.user_id,
+  	a.today,
+  	a.work_time,
+  	a.out_time,
+  	a.illigal_time,
+  	a.over_time
+  	from 
+  	user_month_time as a
+  </select>
+  
+ <resultMap id="BaseResultMapFind" type="evo.model.UserMonthTime" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+   <!--  <result column="user_name" property="userName" jdbcType="VARCHAR" /> -->
+    <result column="today" property="today" jdbcType="VARCHAR" />
+    <result column="work_time" property="workTime" jdbcType="BIGINT" />
+    <result column="out_time" property="outTime" jdbcType="BIGINT" />
+    <result column="illigal_time" property="illigalTime" jdbcType="BIGINT" />
+    <result column="over_time" property="overTime" jdbcType="BIGINT" />
+  <association property="sysUsers" javaType="evo.model.SysUser">
+	<id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="role_id" property="roleId" jdbcType="INTEGER" />
+    <result column="dept_id" property="deptId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_pass" property="userPass" jdbcType="VARCHAR" />
+    <result column="user_create_time" property="userCreateTime" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="user_sex" property="userSex" jdbcType="INTEGER" />
+    <result column="user_able" property="userAble" jdbcType="INTEGER" />
+    <result column="user_address" property="userAddress" jdbcType="VARCHAR" />
+    <result column="user_birthday" property="userBirthday" jdbcType="VARCHAR" />
+   </association>
+  </resultMap>
+  
+  <!-- 根据条件查询信息-分页 -->
+  <select id="findUserMonthTimeListByPage" resultMap="BaseResultMapFind" parameterType="java.util.Map">
+  	select
+  	a.id,
+  	a.user_id,
+  	a.today,
+  	a.work_time,
+  	a.out_time,
+  	a.illigal_time,
+  	a.over_time
+  	from 
+  	user_month_time as a,sys_user as b
+  	where 1=1 and a.user_id = b.user_id
+  	<if test="umt.today != null and !&quot;&quot;.equals(umt.today)"> and DATE_FORMAT(a.today,'%Y-%m-%d') between  #{umt.startTime} and #{umt.endTime} </if>
+  	<if test="umt.userName != null and !&quot;&quot;.equals(umt.userName)"> and b.user_name like concat('%', #{umt.userName},'%')</if>
+  </select>
+  
+    <!-- 根据条件查询信息 -->
+  <select id="findUserMonthTimeListByCondition" resultMap="BaseResultMapFind" parameterType="java.util.Map">
+  	select
+  	a.id,
+  	a.user_id,
+  	a.today,
+  	a.work_time,
+  	a.out_time,
+  	a.illigal_time,
+  	a.over_time
+  	from 
+  	user_month_time as a,sys_user as b
+  	where 1=1 and a.user_id = b.user_id
+  	<if test="umt.today != null and !&quot;&quot;.equals(umt.today)"> and a.today = #{umt.today}</if>
+  	<if test="umt.userId != null and !&quot;&quot;.equals(umt.userId)"> and a.user_id = #{umt.userId}</if>
+  </select>
+  
+  
+  
+    <select id="findUserMonthByTimeList" resultMap="BaseResultMapFind" parameterType="java.util.Map">
+  	select
+  	a.id,
+  	a.user_id,
+  	a.today,
+  	a.work_time,
+  	a.out_time,
+  	a.illigal_time,
+  	a.over_time
+  	from 
+  	user_month_time as a,sys_user as b
+  	where 1=1 and a.user_id = b.user_id
+  	 and DATE_FORMAT(a.today,'%Y-%m-%d') between  #{umt.startTime} and #{umt.endTime} 
+  	<if test="umt.userName != null and !&quot;&quot;.equals(umt.userName)"> and b.user_name like concat('%', #{umt.userName},'%')</if>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_month_time
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  
+  <!-- 插入数据 -->
+  <insert id="insertUserMonthTime"  parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+  	insert into user_month_time(id, user_id,today,work_time, out_time,illigal_time, over_time)
+  	values(#{id,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{today,jdbcType=VARCHAR},#{workTime,jdbcType=BIGINT},
+  			#{outTime,jdbcType=BIGINT},#{illigalTime,jdbcType=BIGINT},#{overTime,jdbcType=BIGINT})
+  </insert>
+  
+  <!-- 根据id删除记录 -->
+    <delete id="deleteUserMonthTimeById"  parameterType="java.lang.Integer">
+  	delete from user_month_time
+  	where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 修改记录 -->
+  <update id="updateUserMonthTime" parameterType="evo.model.UserMonthTime">
+  	update user_month_time
+  	<set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+       <if test="today != null" >
+        today = #{today,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null" >
+        work_time = #{workTime,jdbcType=BIGINT},
+      </if>
+      <if test="outTime != null" >
+        out_time = #{outTime,jdbcType=BIGINT},
+      </if>
+      <if test="illigalTime != null" >
+        illigal_time = #{illigalTime,jdbcType=BIGINT},
+      </if>
+      <if test="overTime != null" >
+        over_time = #{overTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>jb-aptech毕业设计项目</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script src="../script/common.js"></script>
+<style type="text/css">
+<!--
+.STYLE1 {color: #0033CC}
+-->
+</style>
+</head>
+<body>
+
+<div class="page_title">产品查询</div>
+<div class="button_bar">
+	<button class="common_button" onClick="help('');">帮助</button>
+	<button class="common_button" onClick="reload();">查询</button>  
+</div>
+<table class="query_form_table">
+	<tr>
+		<th>名称</th>
+		<td><input /></td>
+		<th>型号</th>
+		<td><input /></td>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+</table>
+<br />
+<table class="data_list_table">
+	<tr>
+		<th>编号</th>
+		<th>名称</th>
+		<th>型号</th>
+		<th>单位</th>
+		<th>单价（元）</th>
+	    <th>查询库存</th>
+	</tr>
+	<tr>
+		<td class="list_data_number">1</td>
+		<td class="list_data_ltext">打印纸</td>
+		<td class="list_data_text">易优百</td>
+		<td class="list_data_text">包</td>
+		<td class="list_data_text">30</td>
+	    <td class="list_data_text"><a href="storage_detail.html" class="STYLE1">查库存</a></td>
+	</tr>
+	<tr>
+		<td class="list_data_number">2</td>
+		<td class="list_data_ltext">三星显示器</td>
+		<td class="list_data_text">EX1920W</td>
+		<td class="list_data_text">台</td>
+		<td class="list_data_text">2000</td>
+	    <td class="list_data_text"><a href="storage_detail.html" class="STYLE1">查库存</a></td>
+	</tr>
+	<tr>
+		<td class="list_data_number">3</td>
+		<td class="list_data_ltext">三星EX1920W</td>
+		<td class="list_data_text">EX1920W </td>
+		<td class="list_data_text">台</td>
+		<td class="list_data_text">1200</td>
+	    <td class="list_data_text"><a href="storage_detail.html" class="STYLE1">查库存</a></td>
+	</tr>
+	<tr>
+		<td class="list_data_number">4</td>
+		<td class="list_data_ltext">三星EX1920W</td>
+		<td class="list_data_text">EX1920W </td>
+		<td class="list_data_text">台</td>
+		<td class="list_data_text">980</td>
+	    <td class="list_data_text"><a href="storage_detail.html" class="STYLE1">查库存</a></td>
+	</tr>
+	<tr>
+		<td class="list_data_number">5</td>
+		<td class="list_data_ltext">三星EX1920W</td>
+		<td class="list_data_text">EX1920W </td>
+		<td class="list_data_text">台</td>
+		<td class="list_data_text">980</td>
+	    <td class="list_data_text"><a href="storage_detail.html" class="STYLE1">查库存</a></td>
+	</tr>
+	<tr>
+		<th colspan="99" class="pager">
+<div class="pager">
+	共29条记录 每页
+	  <input value="5" size="2" />
+	  条
+	第<input value="1" size="2"/>
+	页/共6页
+	<a href="#">第一页</a>
+	<a href="#">上一页</a>
+	<a href="#">下一页</a>
+	<a href="#">最后一页</a>
+	转到
+	<input value="1" size="2" />页
+	<button width="20" onClick="reload();">GO</button>
+</div>		</th>
+	</tr>
+</table>
+</body>
+</html>
